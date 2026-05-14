@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-14T13:02:00.000Z",
+  "title": "Design System: Casa Command Center",
+  "extensions": {
+    "colorMeta": {
+      "signal-blue": {
+        "role": "primary",
+        "displayName": "Signal Blue",
+        "canonical": "oklch(48% 0.16 257)",
+        "tonalRamp": [
+          "oklch(20% 0.10 257)",
+          "oklch(30% 0.13 257)",
+          "oklch(38% 0.15 257)",
+          "oklch(48% 0.16 257)",
+          "oklch(60% 0.14 257)",
+          "oklch(72% 0.10 257)",
+          "oklch(86% 0.05 257)",
+          "oklch(96% 0.02 257)"
+        ]
+      },
+      "signal-blue-deep": {
+        "role": "primary",
+        "displayName": "Signal Blue Deep",
+        "canonical": "oklch(35% 0.13 257)",
+        "tonalRamp": [
+          "oklch(18% 0.09 257)",
+          "oklch(25% 0.11 257)",
+          "oklch(35% 0.13 257)",
+          "oklch(46% 0.14 257)",
+          "oklch(58% 0.12 257)",
+          "oklch(70% 0.08 257)",
+          "oklch(84% 0.04 257)",
+          "oklch(95% 0.02 257)"
+        ]
+      },
+      "surface-ink": {
+        "role": "neutral",
+        "displayName": "Surface Ink",
+        "canonical": "oklch(20% 0.005 257)",
+        "tonalRamp": [
+          "oklch(15% 0.005 257)",
+          "oklch(22% 0.005 257)",
+          "oklch(32% 0.005 257)",
+          "oklch(45% 0.005 257)",
+          "oklch(58% 0.005 257)",
+          "oklch(72% 0.005 257)",
+          "oklch(86% 0.005 257)",
+          "oklch(96% 0.005 257)"
+        ]
+      },
+      "surface-cockpit": {
+        "role": "neutral",
+        "displayName": "Surface Cockpit",
+        "canonical": "oklch(24% 0.015 258)",
+        "tonalRamp": [
+          "oklch(15% 0.015 258)",
+          "oklch(20% 0.015 258)",
+          "oklch(24% 0.015 258)",
+          "oklch(34% 0.015 258)",
+          "oklch(46% 0.015 258)",
+          "oklch(60% 0.015 258)",
+          "oklch(78% 0.010 258)",
+          "oklch(92% 0.005 258)"
+        ]
+      },
+      "border-rule": {
+        "role": "neutral",
+        "displayName": "Border Rule",
+        "canonical": "oklch(91% 0.002 257)",
+        "tonalRamp": [
+          "oklch(22% 0.002 257)",
+          "oklch(36% 0.002 257)",
+          "oklch(52% 0.002 257)",
+          "oklch(66% 0.002 257)",
+          "oklch(80% 0.002 257)",
+          "oklch(91% 0.002 257)",
+          "oklch(96% 0.002 257)",
+          "oklch(99% 0.002 257)"
+        ]
+      },
+      "status-critical-text": {
+        "role": "secondary",
+        "displayName": "Status Critical",
+        "canonical": "oklch(42% 0.14 28)",
+        "tonalRamp": [
+          "oklch(20% 0.10 28)",
+          "oklch(32% 0.13 28)",
+          "oklch(42% 0.14 28)",
+          "oklch(54% 0.16 28)",
+          "oklch(66% 0.14 28)",
+          "oklch(80% 0.09 28)",
+          "oklch(92% 0.04 28)",
+          "oklch(97% 0.02 28)"
+        ]
+      },
+      "status-high-text": {
+        "role": "secondary",
+        "displayName": "Status High",
+        "canonical": "oklch(45% 0.10 60)",
+        "tonalRamp": [
+          "oklch(22% 0.08 60)",
+          "oklch(34% 0.09 60)",
+          "oklch(45% 0.10 60)",
+          "oklch(58% 0.11 60)",
+          "oklch(72% 0.09 60)",
+          "oklch(85% 0.06 60)",
+          "oklch(94% 0.03 60)",
+          "oklch(98% 0.01 60)"
+        ]
+      },
+      "status-medium-text": {
+        "role": "secondary",
+        "displayName": "Status Medium",
+        "canonical": "oklch(45% 0.09 88)",
+        "tonalRamp": [
+          "oklch(22% 0.07 88)",
+          "oklch(34% 0.08 88)",
+          "oklch(45% 0.09 88)",
+          "oklch(60% 0.10 88)",
+          "oklch(74% 0.08 88)",
+          "oklch(86% 0.05 88)",
+          "oklch(95% 0.03 88)",
+          "oklch(98% 0.01 88)"
+        ]
+      },
+      "status-success-text": {
+        "role": "secondary",
+        "displayName": "Status Success",
+        "canonical": "oklch(50% 0.10 142)",
+        "tonalRamp": [
+          "oklch(22% 0.08 142)",
+          "oklch(35% 0.09 142)",
+          "oklch(50% 0.10 142)",
+          "oklch(62% 0.10 142)",
+          "oklch(76% 0.07 142)",
+          "oklch(87% 0.05 142)",
+          "oklch(95% 0.03 142)",
+          "oklch(98% 0.01 142)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Single largest type element. Login wordmark only." },
+      "headline": { "displayName": "Headline", "purpose": "One per route. The page-title H1." },
+      "title": { "displayName": "Title", "purpose": "Section H2s above tables and card groups." },
+      "subtitle": { "displayName": "Subtitle", "purpose": "Card titles, panel headers, sheet titles." },
+      "body-large": { "displayName": "Body Large", "purpose": "Primary readable body (route subtitles, sheet copy)." },
+      "body": { "displayName": "Body", "purpose": "Default UI text in tables, lists, sheet bodies." },
+      "label-eyebrow": { "displayName": "Eyebrow Label", "purpose": "Pre-title uppercase markers; section eyebrows." },
+      "label-pill": { "displayName": "Pill Label", "purpose": "Uppercase caps in urgency / status / channel pills." },
+      "reasoning": { "displayName": "Reasoning", "purpose": "Editorial serif used for agent reasoning and decision prose." },
+      "mono": { "displayName": "Mono", "purpose": "Booking IDs, claim IDs, timestamps, lockbox codes." }
+    },
+    "shadows": [
+      { "name": "shadow-card-lift",          "value": "0 12px 32px -16px rgba(26,26,26,0.18)", "purpose": "KPI card hover lift." },
+      { "name": "shadow-card-lift-strong",   "value": "0 14px 38px -22px rgba(26,26,26,0.22)", "purpose": "Exception card hover lift." },
+      { "name": "shadow-card-lift-property", "value": "0 18px 40px -22px rgba(26,26,26,0.22)", "purpose": "Property card hover lift." },
+      { "name": "shadow-floating-soft",      "value": "0 6px 24px -8px rgba(26,26,26,0.10)",   "purpose": "Sidebar user menu popover." },
+      { "name": "shadow-floating",           "value": "0 18px 36px -16px rgba(26,26,26,0.18)", "purpose": "Notification bell dropdown." },
+      { "name": "shadow-palette",            "value": "0 24px 60px -16px rgba(26,26,26,0.32)", "purpose": "Command palette." },
+      { "name": "shadow-dialog",             "value": "0 30px 80px -20px rgba(0,0,0,0.25)",    "purpose": "Flag-for-correction modal." },
+      { "name": "shadow-toast",              "value": "0 12px 32px -8px rgba(26,26,26,0.40)",  "purpose": "Confirmation toast." }
+    ],
+    "motion": [
+      { "name": "ease-route-fade",  "value": "ease",                                    "purpose": "Route fade-in (220ms). Opacity + 2px translateY." },
+      { "name": "ease-sheet-in",    "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",          "purpose": "Side-sheet slide-in (280ms)." },
+      { "name": "ease-drawer-in",   "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",          "purpose": "Mobile drawer slide-in (240ms)." },
+      { "name": "ease-state",       "value": "ease",                                    "purpose": "Default state transition (140-160ms) for hover / focus / border." },
+      { "name": "duration-state",   "value": "140ms",                                   "purpose": "Default state duration." },
+      { "name": "duration-overlay", "value": "280ms",                                   "purpose": "Sheet / drawer entrance duration." }
+    ],
+    "breakpoints": [
+      { "name": "mobile",  "value": "767px"  },
+      { "name": "tablet",  "value": "1023px" },
+      { "name": "desktop", "value": "1440px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Single primary action per surface. Letter-spaced uppercase caps; 44px height.",
+      "html": "<button class=\"ds-btn-primary\">Sign In</button>",
+      "css": ".ds-btn-primary{height:44px;padding:0 24px;background:#1A1A1A;color:#FFFFFF;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border:none;border-radius:2px;transition:background 160ms ease,transform 160ms ease;cursor:pointer}.ds-btn-primary:hover{background:#000000}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:disabled{background:#C9C9C9;cursor:not-allowed}"
+    },
+    {
+      "name": "Small Primary Button",
+      "kind": "button",
+      "refersTo": "button-sm-primary",
+      "description": "Workhorse decision button. Used multiple times per surface.",
+      "html": "<button class=\"ds-btn-sm-primary\">Approve Resolution</button>",
+      "css": ".ds-btn-sm-primary{height:32px;padding:0 14px;background:#1A1A1A;color:#FFFFFF;font-family:Inter,system-ui,sans-serif;font-size:12px;border:1px solid transparent;border-radius:2px;white-space:nowrap;display:inline-flex;align-items:center;transition:all 140ms ease;cursor:pointer}.ds-btn-sm-primary:hover{background:#000000}"
+    },
+    {
+      "name": "Small Outline Button",
+      "kind": "button",
+      "refersTo": "button-sm-outline",
+      "description": "Secondary action paired with a Small Primary. Border darkens on hover.",
+      "html": "<button class=\"ds-btn-sm-outline\">Call Cleaner</button>",
+      "css": ".ds-btn-sm-outline{height:32px;padding:0 14px;background:#FFFFFF;color:#1A1A1A;font-family:Inter,system-ui,sans-serif;font-size:12px;border:1px solid #E5E5E5;border-radius:2px;white-space:nowrap;display:inline-flex;align-items:center;transition:all 140ms ease;cursor:pointer}.ds-btn-sm-outline:hover{border-color:#1A1A1A;background:#FAFAFA}"
+    },
+    {
+      "name": "Field (input)",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Default text input. 44px tall, ink focus ring rather than blue.",
+      "html": "<input class=\"ds-field\" type=\"text\" placeholder=\"you@casa.com\" />",
+      "css": ".ds-field{width:100%;height:44px;padding:0 14px;border:1px solid #E5E5E5;background:#FFFFFF;color:#1A1A1A;font-family:Inter,system-ui,sans-serif;font-size:14px;border-radius:2px;transition:border-color 160ms ease,box-shadow 160ms ease;outline:none}.ds-field::placeholder{color:#9A9A9A}.ds-field:focus-visible{border-color:#1A1A1A;box-shadow:0 0 0 3px rgba(26,26,26,0.06)}"
+    },
+    {
+      "name": "Urgency Pill — Critical",
+      "kind": "chip",
+      "refersTo": "pill-urgency-critical",
+      "description": "Quartet-of-status example. Soft fill, tinted border, status text. The dot lives outside the pill.",
+      "html": "<span class=\"ds-pill-critical\">Critical</span>",
+      "css": ".ds-pill-critical{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:999px;background:#FBEBE8;color:#8A2B1F;border:1px solid #F0CFC9;font-family:Inter,system-ui,sans-serif;font-size:10.5px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap}"
+    },
+    {
+      "name": "Channel Pill — Vrbo",
+      "kind": "chip",
+      "refersTo": "pill-channel-vrbo",
+      "description": "Channel-family pill. Same family that signals Confirmed bookings and Dispatched cleanings; Signal Blue soft-fill quartet.",
+      "html": "<span class=\"ds-pill-vrbo\">Vrbo</span>",
+      "css": ".ds-pill-vrbo{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 10px;border-radius:999px;background:#EAF1FB;color:#1E5FBF;border:1px solid #C9D9F0;font-family:Inter,system-ui,sans-serif;font-size:11px;white-space:nowrap}"
+    },
+    {
+      "name": "KPI Card",
+      "kind": "card",
+      "refersTo": "kpi-card",
+      "description": "Tier 1 surface. Flat at rest; on hover, a 2px Signal Blue rule slides in along the inside-left edge and the card lifts 1px.",
+      "html": "<button class=\"ds-kpi\"><span class=\"ds-kpi-rule\"></span><span class=\"ds-kpi-label\">Open Exceptions</span><span class=\"ds-kpi-value\">4</span><span class=\"ds-kpi-trend\">+1 from yesterday</span></button>",
+      "css": ".ds-kpi{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;width:240px;min-height:150px;padding:18px 20px;background:#FFFFFF;border:1px solid #E5E5E5;border-radius:2px;text-align:left;cursor:pointer;transition:border-color 160ms ease,transform 160ms ease,box-shadow 160ms ease}.ds-kpi:hover{border-color:#1A1A1A;box-shadow:0 12px 32px -16px rgba(26,26,26,0.18);transform:translateY(-1px)}.ds-kpi-rule{position:absolute;left:0;top:0;bottom:0;width:2px;background:transparent;transition:background 160ms ease}.ds-kpi:hover .ds-kpi-rule{background:#1E5FBF}.ds-kpi-label{font-family:Inter,system-ui,sans-serif;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:#8C8C8C}.ds-kpi-value{display:block;font-family:'Playfair Display',Georgia,serif;font-size:44px;line-height:1;letter-spacing:-0.025em;color:#1A1A1A;font-variant-numeric:tabular-nums;margin-top:12px}.ds-kpi-trend{display:block;font-family:Inter,system-ui,sans-serif;font-size:11.5px;color:#737373;margin-top:12px}"
+    },
+    {
+      "name": "Exception Card",
+      "kind": "card",
+      "refersTo": "exception-card",
+      "description": "The single most information-dense surface in the product. Carries urgency dot + pill + agent label + timestamp + serif title + property line + reasoning prose + action row.",
+      "html": "<article class=\"ds-ex\"><header class=\"ds-ex-head\"><span class=\"ds-ex-dot\"></span><span class=\"ds-pill-critical\">Critical</span><span class=\"ds-ex-agent\">Guest Agent</span><span class=\"ds-ex-time\">8 min ago</span></header><h3 class=\"ds-ex-title\">Guest Complaint</h3><div class=\"ds-ex-prop\">1455 Howe St — Yaletown 2BR</div><p class=\"ds-ex-reason\">Guest reports broken AC, 32°C inside. Demands resolution or refund.</p><div class=\"ds-ex-actions\"><button class=\"ds-btn-sm-primary\">Approve Resolution</button><button class=\"ds-btn-sm-outline\">Call Guest</button><button class=\"ds-btn-sm-outline\">Assign Contractor</button></div></article>",
+      "css": ".ds-ex{background:#FFFFFF;border:1px solid #E5E5E5;border-radius:2px;padding:22px 24px 20px;transition:border-color 160ms ease,box-shadow 200ms ease,transform 160ms ease;font-family:Inter,system-ui,sans-serif}.ds-ex:hover{border-color:#C9C9C9;box-shadow:0 14px 38px -22px rgba(26,26,26,0.22)}.ds-ex-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}.ds-ex-dot{width:8px;height:8px;border-radius:999px;background:#C0392B;display:inline-block}.ds-pill-critical{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:999px;background:#FBEBE8;color:#8A2B1F;border:1px solid #F0CFC9;font-size:10.5px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap}.ds-ex-agent{font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:#A3A3A3;margin-right:auto}.ds-ex-time{font-size:11.5px;color:#A3A3A3}.ds-ex-title{font-family:'Playfair Display',Georgia,serif;font-size:20px;line-height:1.25;letter-spacing:-0.025em;color:#1A1A1A;font-weight:400;margin:0}.ds-ex-prop{font-size:12.5px;color:#737373;margin-top:4px}.ds-ex-reason{font-family:'Playfair Display',Georgia,serif;font-size:14px;line-height:1.55;color:#404040;max-width:60ch;margin:12px 0 0 0}.ds-ex-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.ds-btn-sm-primary{height:32px;padding:0 14px;background:#1A1A1A;color:#FFFFFF;font-size:12px;border:1px solid transparent;border-radius:2px;white-space:nowrap;cursor:pointer;transition:all 140ms ease}.ds-btn-sm-primary:hover{background:#000000}.ds-btn-sm-outline{height:32px;padding:0 14px;background:#FFFFFF;color:#1A1A1A;font-size:12px;border:1px solid #E5E5E5;border-radius:2px;white-space:nowrap;cursor:pointer;transition:all 140ms ease}.ds-btn-sm-outline:hover{border-color:#1A1A1A;background:#FAFAFA}"
+    },
+    {
+      "name": "Sidebar Nav Item (active)",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Active sidebar item. 4px Signal Blue left border lives inside the row so it never reads as a colored side-stripe border on an outer container.",
+      "html": "<nav class=\"ds-sb\"><div class=\"ds-sb-group\">Daily</div><a class=\"ds-sb-item ds-sb-active\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg><span>Home</span></a><a class=\"ds-sb-item\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"/></svg><span>Pricing</span></a></nav>",
+      "css": ".ds-sb{width:240px;padding:20px 0;background:#FFFFFF;border-right:1px solid #E5E5E5;font-family:Inter,system-ui,sans-serif}.ds-sb-group{font-family:'Playfair Display',Georgia,serif;font-style:italic;color:#9A9A9A;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;padding:0 22px;margin-bottom:8px}.ds-sb-item{position:relative;display:flex;align-items:center;gap:10px;height:34px;padding:0 18px 0 22px;font-size:13px;color:#525252;border-left:4px solid transparent;margin-left:-4px;text-decoration:none;transition:color 140ms ease,background 140ms ease}.ds-sb-item:hover{color:#1A1A1A}.ds-sb-active{color:#1A1A1A;border-left-color:#1E5FBF;font-weight:500}"
+    },
+    {
+      "name": "Draft Chat Bubble",
+      "kind": "custom",
+      "refersTo": "chat-bubble-draft",
+      "description": "Signature component. The dashed-blue draft bubble is how the Shadow Mode system makes itself visible at the conversation level. Carries a 9.5px draft pill identifying the agent.",
+      "html": "<div class=\"ds-chat-row\"><div><div class=\"ds-bubble-draft\">Hi Helena — great question. There’s one assigned spot in P2; happy to ask the building if a second is available for the dates. Will confirm by 5pm.</div><div class=\"ds-bubble-meta\">Today, 09:24<span class=\"ds-draft-pill\">Draft — Guest Agent</span></div></div></div>",
+      "css": ".ds-chat-row{display:flex;justify-content:flex-end;margin-bottom:10px;font-family:Inter,system-ui,sans-serif}.ds-bubble-draft{max-width:78%;padding:10px 13px;border-radius:14px 14px 4px 14px;font-size:13px;line-height:1.45;background:#FFFFFF;color:#525252;border:1px dashed #C9D9F0}.ds-bubble-meta{font-size:10.5px;color:#8C8C8C;margin-top:4px;padding:0 4px;text-align:right}.ds-draft-pill{display:inline-flex;align-items:center;background:#EAF1FB;color:#1E5FBF;border:1px solid #C9D9F0;font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;padding:1px 6px;border-radius:999px;margin-left:6px}"
+    },
+    {
+      "name": "Status Banner — Amber",
+      "kind": "custom",
+      "refersTo": "status-banner-amber",
+      "description": "Page-top horizontal band that opens every route when the operator has work to do. The single most opinionated UI moment in Casa.",
+      "html": "<div class=\"ds-banner-amber\"><span class=\"ds-banner-icon\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/></svg></span><div class=\"ds-banner-body\"><div class=\"ds-banner-title\">4 items need your attention</div><div class=\"ds-banner-sub\">Sorted by urgency. The Guest Agent flagged one critical item 8 minutes ago.</div></div><button class=\"ds-banner-mute\">Mute</button></div>",
+      "css": ".ds-banner-amber{display:flex;align-items:center;gap:18px;min-height:80px;padding:16px 40px;background:#FBF5E9;color:#6B4A12;border-bottom:1px solid #EFE3C7;font-family:Inter,system-ui,sans-serif}.ds-banner-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,0.65);border:1px solid rgba(0,0,0,0.06);color:#6B4A12;flex-shrink:0}.ds-banner-body{flex:1;min-width:0}.ds-banner-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;line-height:1.25;color:#6B4A12}.ds-banner-sub{font-size:12.5px;margin-top:2px;opacity:0.8}.ds-banner-mute{height:32px;padding:0 14px;background:rgba(255,255,255,0.6);color:#6B4A12;border:1px solid #EFE3C7;border-radius:2px;font-size:12px;white-space:nowrap;cursor:pointer;flex-shrink:0;transition:all 140ms ease}.ds-banner-mute:hover{border-color:#6B4A12;background:#FFFFFF}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Operator's Cockpit",
+    "overview": "The Casa Command Center is not a dashboard, not a SaaS app, not a marketing surface. It is the seat behind the controls of a small hospitality operation. Ruled lines, mono numerics, quiet readouts, and exception lights do the work. Decoration is the failure mode. Restraint is the brand. The system rejects three lineages by name: Hostaway / Lodgify / PriceLabs / Guesty and the legacy PMS aesthetic; generic SaaS dashboards with hero-metric templates and gradient accents; and the dark-mode AI app aesthetic of purple, neon, and glassmorphism. Casa's premium homes are curated by humans; the operator surface must read as if it were drawn by the same team. The Operator's Cockpit forces three habits. (a) Information density is earned, never decorated. (b) Color enters only as signal. (c) Type carries the editorial register: Playfair Display for headings and reasoning, Inter for ops surface text, mono for IDs and timestamps.",
+    "keyCharacteristics": [
+      "Single saturated accent at ≤10% surface coverage. Restrained color strategy.",
+      "Editorial serif (Playfair Display) for hero titles and reasoning prose; Inter for everything else; mono for IDs, timestamps, and audit codes.",
+      "2px corner radius everywhere, plus 999px pill for status. No mid-range radii.",
+      "Flat-tinted surfaces. Shadows are state, not structure: they appear on hover, on overlays, and on lifted panels.",
+      "A four-tier elevation system (page, card, sheet, dialog) that lets each surface explain its own role.",
+      "Two banner registers (green \"all clear\", amber \"needs attention\") that silently report system health at the top of every route."
+    ],
+    "rules": [
+      { "name": "The One Voice Rule",                   "body": "Signal Blue is used on ≤10% of any given screen. Active-nav border, View all links, draft-pill outlines, primary-key sparkline strokes. That is the budget.", "section": "colors" },
+      { "name": "The Print-Shop Ink-Drawer Rule",       "body": "Status colors are quartets, never single hex values. A pill must use the matched soft-fill and border together with the text color.", "section": "colors" },
+      { "name": "The Cockpit-Surface Reservation Rule", "body": "surface-cockpit (#1A1F2A) appears only on agent detail-page heroes. Its rarity is the point: a dark band signals you have entered an agent's operating console.", "section": "colors" },
+      { "name": "The No Pure Black, No Pure White Rule","body": "#000 and #FFF are forbidden. #1A1A1A carries the deepest ink; #FFFFFF is the paper, and even on the paper, soft/quiet/rule tints subdivide the canvas.", "section": "colors" },
+      { "name": "The Serif-for-Decisions Rule",         "body": "Playfair Display is reserved for headings and decision-grade prose. It never appears as paragraph body or UI label. When Playfair appears, a human is meant to pause and read.", "section": "typography" },
+      { "name": "The Tabular-Numerals-Always Rule",     "body": "Every numeric value in the product uses font-variant-numeric: tabular-nums. Carlos compares numbers across rows constantly; the columns must line up.", "section": "typography" },
+      { "name": "The One Headline Per Route Rule",      "body": "Each route has exactly one Playfair Headline (40px). No second one. Detail pages use route-specific variants (Property Hero 44px, Headline-Cockpit 36px), still exactly one per route.", "section": "typography" },
+      { "name": "The Flat-at-Rest Rule",                "body": "Tier 0 and Tier 1 surfaces have zero shadow at rest. Every shadow is either a hover affordance or an overlay credential. Static page shadows are forbidden.", "section": "elevation" },
+      { "name": "The Tier-Declares-Role Rule",          "body": "A surface's tier declares its role. A floating panel without a shadow reads as broken; a static card with a shadow reads as confused. If unsure which tier a new surface belongs to, decide its role first.", "section": "elevation" },
+      { "name": "The Draft-Bubble Signature Rule",      "body": "The dashed-blue draft bubble is the single most product-defining UI element. The Draft — [Agent Name] pill must always be present. This is how the system makes Shadow Mode legible at the conversation level.", "section": "components" },
+      { "name": "The Hero-Per-Detail Rule",             "body": "Property detail, booking detail, and agent detail each get exactly one hero band. The hero is full-bleed, uses route-specific typography, and carries the route's primary action group flush-right of the title.", "section": "components" },
+      { "name": "The Pill-Family-Single-Row Rule",      "body": "Each row, table cell, or card region uses pills from one family only. Never stack two urgency pills, never combine status + clean-status in the same context.", "section": "components" }
+    ],
+    "dos": [
+      "Do keep Signal Blue (#1E5FBF) coverage at or below 10% of any given screen.",
+      "Do lead the home route with a status banner: amber for exceptions, green for all clear. Never with a marketing greeting.",
+      "Do use Playfair Display for headings, KPI numbers, and reasoning prose. Use Inter for every UI label, table cell, and body sentence. Use SF Mono for booking IDs, claim IDs, lockbox codes, and timestamps.",
+      "Do apply font-variant-numeric: tabular-nums to every numeric column and every figure ≥18px.",
+      "Do treat status colors as quartets (dot + text + soft + border). A Critical text on plain surface-paper is broken; pair it with status-critical-soft and status-critical-border in pills.",
+      "Do declare every new surface as Tier 0 / 1 / 2 / 3 / 4 before styling it.",
+      "Do show agent reasoning. Every Pricing Agent decision opens into a decision sheet with chain, comps, sources, and guardrails.",
+      "Do label Shadow Mode explicitly with the amber banner and Logged (Shadow) pill family."
+    ],
+    "donts": [
+      "Don't use #000 or #FFF. Casa's ink is #1A1A1A; Casa's paper is #FFFFFF with surface-soft, surface-quiet, and border-rule tints subdividing it.",
+      "Don't ever use a border-left or border-right greater than 1px as a colored stripe on a card, list item, or alert.",
+      "Don't use background-clip: text with a gradient. Gradient text is forbidden, no exceptions.",
+      "Don't use glassmorphism, blur backdrops, or frosted surfaces. Casa is paper-and-ink, not glass.",
+      "Don't reach for the hero-metric template (huge number, tiny label, gradient accent, supporting stats).",
+      "Don't ship identical-card grids of icon + heading + body.",
+      "Don't style the product to look like Hostaway, Lodgify, PriceLabs, or Guesty. If a layout feels like it could have shipped in 2014, loosen the spacing.",
+      "Don't style the product to look like a generic SaaS dashboard.",
+      "Don't style the product to look like a dark-mode AI app. The only dark band in the system is surface-cockpit on the agent detail page.",
+      "Don't style the product to look like consumer Airbnb. No coral accents, no illustrated empty states, no marketing-warm copy.",
+      "Don't add a second Playfair Headline to a route. One Headline per route.",
+      "Don't drop the Draft — [Agent Name] pill from a draft chat bubble.",
+      "Don't stack two urgency pills, or combine status + clean-status pills, or otherwise mix pill families in a single row.",
+      "Don't animate CSS layout properties. Use transform and opacity. Ease out with cubic-bezier exponential curves; never bounce, never elastic."
+    ]
+  }
+}
