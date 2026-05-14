@@ -414,7 +414,7 @@ function ClaimEditSheet({
                 <option>Airbnb Resolution Center</option>
                 <option>Vrbo Damage Protection</option>
                 <option>Booking.com Partner Hub</option>
-                <option>Direct — invoice owner</option>
+                <option>Direct · invoice owner</option>
               </select>
             </div>
           </div>

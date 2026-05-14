@@ -21,7 +21,7 @@ export default function BookingsPage() {
           Bookings
         </h1>
         <p className="text-[13.5px] text-neutral-500 mt-2">
-          Last 30 days — 47 bookings.
+          Last 30 days · 47 bookings.
         </p>
       </header>
 

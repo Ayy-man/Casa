@@ -135,7 +135,7 @@ export default function LoginPage() {
 
       <footer className="px-10 pb-8 pt-6 text-[11px] text-neutral-400">
         <div className="flex items-center justify-between">
-          <div>© 2026 Casa Properties — Vancouver</div>
+          <div>© 2026 Casa Properties · Vancouver</div>
           <div className="tracking-eyebrow uppercase">26 Properties Under Care</div>
         </div>
         <div className="mt-3 flex items-center justify-center gap-2 text-neutral-400">

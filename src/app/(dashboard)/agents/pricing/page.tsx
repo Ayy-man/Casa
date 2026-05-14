@@ -51,10 +51,10 @@ const DECISIONS = Array.from({ length: 30 }).map((_, i) => {
     change,
     reasoning:
       change > 5
-        ? "FIFA fan-zone proximity detected — major demand spike inbound."
+        ? "FIFA fan-zone proximity detected. Major demand spike inbound."
         : change < -5
-        ? "Comp set softened — two near-comps cut by 10%+. Reducing to stay competitive."
-        : "Modest movement — within normal weekly noise. Rate held near baseline.",
+        ? "Comp set softened. Two near-comps cut by 10%+. Reducing to stay competitive."
+        : "Modest movement, within normal weekly noise. Rate held near baseline.",
     status: i % 7 === 3 ? "Flagged" : "Logged",
     cost: (0.02 + (i % 5) * 0.005).toFixed(3),
   };
@@ -570,8 +570,8 @@ export default function PricingAgentPage() {
                   style={{ background: agentActive ? "#8A2B1F" : "#1A1A1A" }}
                 >
                   {agentActive
-                    ? "Active — Click to disable"
-                    : "Disabled — Click to enable"}
+                    ? "Active · Click to disable"
+                    : "Disabled · Click to enable"}
                 </button>
               </div>
             </div>

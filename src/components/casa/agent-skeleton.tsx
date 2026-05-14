@@ -50,7 +50,7 @@ export function AgentSkeleton({
           <p className="text-[13px] text-neutral-500 mt-2 max-w-[480px] mx-auto">
             All sections from the Pricing Agent (At a Glance, Live Activity,
             Configuration, Performance, Decisions, Property Breakdown, Validation,
-            Prompt History, Controls) reused here — populated with this agent’s action
+            Prompt History, Controls) reused here, populated with this agent’s action
             types in a later iteration.
           </p>
           <Link href="/agents/pricing" className="btn-sm btn-sm-outline mt-5 inline-flex">

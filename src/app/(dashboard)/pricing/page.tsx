@@ -51,7 +51,7 @@ export default function PricingPage() {
             Pricing Recommendations
           </h1>
           <p className="text-[13.5px] text-neutral-500 mt-2">
-            {WEEKS[weekIdx]} — 26 properties analyzed.
+            {WEEKS[weekIdx]} · 26 properties analyzed.
           </p>
         </div>
         <div className="text-right">
@@ -76,7 +76,7 @@ export default function PricingPage() {
           </span>
           <div>
             <div className="font-medium">
-              Validation only — recommendations are not pushing to Hostaway.
+              Validation only · recommendations are not pushing to Hostaway.
             </div>
             <div className="text-[12px] mt-0.5 opacity-90">
               Cutover decision in Week 4. Approvals here are recorded for audit and accuracy
@@ -162,7 +162,7 @@ export default function PricingPage() {
               const decision = decisions[r.property];
               const expanded = expandedId === r.property;
               const dir =
-                r.change > 0.05 ? "↑" : r.change < -0.05 ? "↓" : "—";
+                r.change > 0.05 ? "↑" : r.change < -0.05 ? "↓" : "·";
               return (
                 <tr
                   key={r.property}
@@ -270,7 +270,7 @@ export default function PricingPage() {
       </div>
 
       <div className="text-[11.5px] text-neutral-400 mt-6">
-        Showing {sorted.length} of {sorted.length} properties — sorted by magnitude of change.
+        Showing {sorted.length} of {sorted.length} properties · sorted by magnitude of change.
       </div>
     </div>
   );

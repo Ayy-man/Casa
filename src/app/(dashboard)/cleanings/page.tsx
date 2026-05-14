@@ -39,7 +39,7 @@ export default function CleaningsPage() {
           Cleanings
         </h1>
         <p className="text-[13.5px] text-neutral-500 mt-2">
-          Today, May 1 — 7 cleanings scheduled.
+          Today, May 1 · 7 cleanings scheduled.
         </p>
       </header>
 

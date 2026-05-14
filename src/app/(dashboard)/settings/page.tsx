@@ -299,7 +299,7 @@ function APIStatus() {
     {
       name: "PriceLabs",
       status: "Connected",
-      meta: "Read-only — validation only",
+      meta: "Read-only · validation only",
     },
     { name: "OpenPhone", status: "Connected", meta: "Webhook healthy" },
     { name: "QuickBooks", status: "Not connected", meta: "Phase 2" },
@@ -429,7 +429,7 @@ function Branding() {
           style={{ background: "#FAFAFA", color: "#525252" }}
         />
         <p className="text-[11.5px] text-neutral-500 mt-2">
-          Read-only — contact us to change.
+          Read-only · contact us to change.
         </p>
       </div>
     </div>

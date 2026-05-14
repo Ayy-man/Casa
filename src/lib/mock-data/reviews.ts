@@ -30,8 +30,8 @@ export type ActivityEntry = {
 
 export const ACTIVITY_BY_PROP: Record<string, ActivityEntry[]> = {
   default: [
-    { time: "Today, 09:42", agent: "Pricing", text: "Recommended +19.3% for Week of May 4 — FIFA week demand.", status: "shadow" },
-    { time: "Today, 08:17", agent: "Guest", text: "Drafted reply to Wong re: parking — awaiting human approval.", status: "sent" },
+    { time: "Today, 09:42", agent: "Pricing", text: "Recommended +19.3% for Week of May 4. FIFA week demand.", status: "shadow" },
+    { time: "Today, 08:17", agent: "Guest", text: "Drafted reply to Wong re: parking, awaiting human approval.", status: "sent" },
     { time: "Today, 07:55", agent: "Ops", text: "Confirmed turnover assigned to Andrea C. for 11:00.", status: "sent" },
     { time: "Yest, 18:02", agent: "Pricing", text: "Pulled comp set for next 14 nights.", status: "sent" },
     { time: "Yest, 14:30", agent: "SOP", text: "Verified lockbox code unchanged from last quarter.", status: "sent" },

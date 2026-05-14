@@ -19,7 +19,7 @@ export const EXCEPTIONS: ExceptionItem[] = [
     typeLabel: "Guest Complaint",
     urgency: "Critical",
     agent: "Guest Agent",
-    property: "1455 Howe St — Yaletown 2BR",
+    property: "1455 Howe St · Yaletown 2BR",
     summary: "Guest reports broken AC, 32°C inside. Demands resolution or refund.",
     timeAgo: "8 min ago",
     actions: ["Approve Resolution", "Call Guest", "Assign Contractor"],
@@ -30,7 +30,7 @@ export const EXCEPTIONS: ExceptionItem[] = [
     typeLabel: "Cleaner No-Response",
     urgency: "High",
     agent: "Ops Agent",
-    property: "989 Nelson St — Downtown Studio",
+    property: "989 Nelson St · Downtown Studio",
     summary:
       "Cleaner Sabrina hasn’t confirmed dispatch 2hr after WhatsApp sent. Checkout was at 11am.",
     timeAgo: "23 min ago",
@@ -42,7 +42,7 @@ export const EXCEPTIONS: ExceptionItem[] = [
     typeLabel: "Claim Drafted",
     urgency: "Medium",
     agent: "Ops Agent",
-    property: "3280 W Broadway — Pt Grey 3BR",
+    property: "3280 W Broadway · Pt Grey 3BR",
     summary:
       "Damage claim drafted: scratched hardwood floor. Estimated cost $480.",
     timeAgo: "1 hr ago",

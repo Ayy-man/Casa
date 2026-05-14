@@ -65,7 +65,7 @@ function Cumulative() {
           {
             l: "Suggested Cutover",
             v: REPORT_CUMULATIVE.cutover,
-            sub: "Ops, SOP — ready",
+            sub: "Ops, SOP · ready",
           },
           {
             l: "Reports Delivered",

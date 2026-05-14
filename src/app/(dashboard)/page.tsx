@@ -1,16 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
+  CheckCircle,
   ChevronsLeft,
   ChevronsRight,
   Leaf,
   TriangleAlert,
 } from "lucide-react";
-import { useAuth } from "@/lib/auth/context";
 import {
   EXCEPTIONS,
   URGENCY_RANK,
@@ -25,14 +25,25 @@ import {
   TODAY_CHECKOUTS,
 } from "@/lib/mock-data/bookings";
 
-const KPIS = [
-  { label: "Open Exceptions", value: 4, trend: "+1 from yesterday", go: "/claims" },
+const LEAD_KPI = {
+  label: "Open Exceptions",
+  value: 4,
+  trend: "+1 from yesterday",
+  go: "/",
+};
+const SECONDARY_KPIS = [
   { label: "Cleanings Today", value: 7, trend: "3 in progress", go: "/cleanings" },
   { label: "Pricing Recs Pending", value: 26, trend: "8 above 5% threshold", go: "/pricing" },
   { label: "Claims Pending Review", value: 2, trend: "Same as yesterday", go: "/claims" },
 ];
 
-function ExceptionCard({ ex }: { ex: ExceptionItem }) {
+function ExceptionCard({
+  ex,
+  onAction,
+}: {
+  ex: ExceptionItem;
+  onAction: (action: string, ex: ExceptionItem) => void;
+}) {
   const [primary, ...rest] = ex.actions;
   return (
     <article className="ex-card">
@@ -40,11 +51,11 @@ function ExceptionCard({ ex }: { ex: ExceptionItem }) {
         <div className="flex items-center gap-3 min-w-0">
           <span className={`urgency-dot urg-${ex.urgency}`} />
           <span className={`urgency-pill pill-${ex.urgency}`}>{ex.urgency}</span>
-          <span className="text-[10.5px] tracking-eyebrow uppercase text-neutral-400">
+          <span className="text-[10.5px] tracking-eyebrow uppercase text-neutral-600">
             {ex.agent}
           </span>
         </div>
-        <span className="text-[11.5px] text-neutral-400 shrink-0">{ex.timeAgo}</span>
+        <span className="text-[11.5px] text-neutral-600 shrink-0">{ex.timeAgo}</span>
       </header>
 
       <h3 className="font-display text-[20px] leading-tight tracking-tight">
@@ -60,7 +71,7 @@ function ExceptionCard({ ex }: { ex: ExceptionItem }) {
         <button
           type="button"
           className="btn-sm btn-sm-primary"
-          onClick={() => console.log("primary:", primary, ex.id)}
+          onClick={() => onAction(primary, ex)}
         >
           {primary}
         </button>
@@ -69,7 +80,7 @@ function ExceptionCard({ ex }: { ex: ExceptionItem }) {
             type="button"
             key={a}
             className="btn-sm btn-sm-outline"
-            onClick={() => console.log("action:", a, ex.id)}
+            onClick={() => onAction(a, ex)}
           >
             {a}
           </button>
@@ -86,6 +97,13 @@ function ExceptionCard({ ex }: { ex: ExceptionItem }) {
     </article>
   );
 }
+
+type ActionToast = {
+  id: number;
+  action: string;
+  property: string;
+  exId: number;
+};
 
 function Panel({
   title,
@@ -124,7 +142,6 @@ function Panel({
 
 export default function HomePage() {
   const router = useRouter();
-  const { user } = useAuth();
   const exceptions = useMemo(
     () =>
       [...EXCEPTIONS].sort(
@@ -134,9 +151,28 @@ export default function HomePage() {
   );
   const exceptionCount = exceptions.length;
   const [railOpen, setRailOpen] = useState(true);
-  const firstName = (user?.name ?? "").split(" ")[0] ?? "";
+  const [toast, setToast] = useState<ActionToast | null>(null);
+  const dismissRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    if (dismissRef.current) window.clearTimeout(dismissRef.current);
+    dismissRef.current = window.setTimeout(() => setToast(null), 5000);
+    return () => {
+      if (dismissRef.current) window.clearTimeout(dismissRef.current);
+    };
+  }, [toast]);
+
+  const handleAction = (action: string, ex: ExceptionItem) => {
+    setToast({ id: Date.now(), action, property: ex.property, exId: ex.id });
+  };
+  const undoAction = () => {
+    if (dismissRef.current) window.clearTimeout(dismissRef.current);
+    setToast(null);
+  };
 
   return (
+    <>
     <div className="route-fade">
       {exceptionCount > 0 ? (
         <div className="status-banner status-amber">
@@ -175,31 +211,45 @@ export default function HomePage() {
       )}
 
       <div className="page-pad">
-        <div className="mb-8">
-          <div className="section-eyebrow">Today · Friday, May 1</div>
-          <h1 className="font-display text-[40px] leading-[1.1] tracking-tight mt-1">
-            Good morning{firstName ? `, ${firstName}` : ""}.
-          </h1>
-        </div>
+        <div className="section-eyebrow mb-5">Today · Friday, May 1</div>
 
-        <div className="grid grid-cols-4 gap-4 mb-10">
-          {KPIS.map((k) => (
-            <button
-              type="button"
-              key={k.label}
-              onClick={() => router.push(k.go)}
-              className="kpi-card"
-            >
-              <span className="kpi-rule" />
-              <div className="section-eyebrow">{k.label}</div>
-              <div>
-                <div className="font-display text-[44px] leading-none tracking-tight">
-                  {k.value}
-                </div>
-                <div className="text-[11.5px] text-neutral-500 mt-3">{k.trend}</div>
+        <div className="grid gap-4 mb-10 home-kpi-row">
+          <button
+            type="button"
+            onClick={() => router.push(LEAD_KPI.go)}
+            className="kpi-card kpi-card--lead"
+            aria-label={`${LEAD_KPI.value} ${LEAD_KPI.label}, ${LEAD_KPI.trend}`}
+          >
+            <span className="kpi-rule" />
+            <div className="section-eyebrow">{LEAD_KPI.label}</div>
+            <div>
+              <div className="font-display text-[72px] leading-none tracking-tight">
+                {LEAD_KPI.value}
               </div>
-            </button>
-          ))}
+              <div className="text-[12.5px] text-neutral-600 mt-4">{LEAD_KPI.trend}</div>
+            </div>
+          </button>
+
+          <div className="grid grid-cols-1 gap-3 home-kpi-stack">
+            {SECONDARY_KPIS.map((k) => (
+              <button
+                type="button"
+                key={k.label}
+                onClick={() => router.push(k.go)}
+                className="kpi-card kpi-card--sm"
+                aria-label={`${k.value} ${k.label}, ${k.trend}`}
+              >
+                <span className="kpi-rule" />
+                <div className="flex items-baseline justify-between gap-4">
+                  <div className="section-eyebrow truncate">{k.label}</div>
+                  <div className="font-display text-[26px] leading-none tracking-tight tabular-nums">
+                    {k.value}
+                  </div>
+                </div>
+                <div className="text-[11.5px] text-neutral-600 mt-2">{k.trend}</div>
+              </button>
+            ))}
+          </div>
         </div>
 
         <div
@@ -218,7 +268,7 @@ export default function HomePage() {
             </div>
             <div className="flex flex-col gap-3">
               {exceptions.map((e) => (
-                <ExceptionCard key={e.id} ex={e} />
+                <ExceptionCard key={e.id} ex={e} onAction={handleAction} />
               ))}
             </div>
           </section>
@@ -304,14 +354,14 @@ export default function HomePage() {
                 <Panel title="Latest Agent Activity" cta={() => router.push("/agents")}>
                   {AGENT_ACTIVITY.map((a) => (
                     <div key={a.text} className="panel-row">
-                      <span className="text-[10px] tracking-eyebrow uppercase text-neutral-400 w-[52px] shrink-0">
+                      <span className="text-[10px] tracking-eyebrow uppercase text-neutral-600 w-[52px] shrink-0">
                         {a.agent}
                       </span>
                       <span className="flex-1 min-w-0">
                         <span className="block text-[12.5px] text-neutral-800 truncate">
                           {a.text}
                         </span>
-                        <span className="block text-[10.5px] text-neutral-400">
+                        <span className="block text-[10.5px] text-neutral-600">
                           {a.time}
                         </span>
                       </span>
@@ -324,5 +374,53 @@ export default function HomePage() {
         </div>
       </div>
     </div>
+
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            position: "fixed",
+            bottom: 28,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#1A1A1A",
+            color: "#FFFFFF",
+            padding: "10px 14px 10px 18px",
+            borderRadius: 2,
+            boxShadow: "0 12px 32px -8px rgba(26,26,26,0.4)",
+            fontSize: 13,
+            letterSpacing: "0.01em",
+            zIndex: 100,
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+            maxWidth: 480,
+          }}
+        >
+          <CheckCircle size={14} strokeWidth={1.6} />
+          <span className="truncate">
+            {toast.action} · {toast.property}
+          </span>
+          <button
+            type="button"
+            onClick={undoAction}
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "#FFFFFF",
+              opacity: 0.85,
+              border: "1px solid rgba(255,255,255,0.3)",
+              padding: "4px 10px",
+              borderRadius: 2,
+              background: "transparent",
+            }}
+          >
+            Undo
+          </button>
+        </div>
+      )}
+    </>
   );
 }

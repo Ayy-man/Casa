@@ -42,7 +42,7 @@ export default function BookingDetailPage({
   const thread = [
     {
       who: "them",
-      text: "Hi! Just booked your place — looking forward to it.",
+      text: "Hi! Just booked your place, looking forward to it.",
       time: "Apr 28, 14:02",
     },
     {
@@ -53,7 +53,7 @@ export default function BookingDetailPage({
     { who: "them", text: booking.lastMsg, time: "Today, 09:21" },
     {
       who: "draft",
-      text: `Hi ${firstNameOfGuest} — great question. There’s one assigned spot in P2; happy to ask the building if a second is available for the dates. Will confirm by 5pm.`,
+      text: `Hi ${firstNameOfGuest}, great question. There’s one assigned spot in P2; happy to ask the building if a second is available for the dates. Will confirm by 5pm.`,
       time: "Today, 09:24",
       agent: "Guest Agent",
     },
@@ -76,8 +76,7 @@ export default function BookingDetailPage({
             {booking.guest}
           </h1>
           <div className="text-[13px] text-neutral-500 mt-1">
-            {p?.name} · {formatDate(booking.checkIn)} —{" "}
-            {formatDate(booking.checkOut)}
+            {p?.name} · {formatDate(booking.checkIn)}–{formatDate(booking.checkOut)}
           </div>
           <div className="flex items-center gap-2 mt-3">
             <span className={`ch-pill ${channelClass(booking.channel)}`}>
@@ -117,7 +116,7 @@ export default function BookingDetailPage({
                   >
                     {m.time}
                     {m.who === "draft" && (
-                      <span className="draft-pill">Draft — {m.agent}</span>
+                      <span className="draft-pill">Draft · {m.agent}</span>
                     )}
                   </div>
                 </div>
@@ -139,7 +138,7 @@ export default function BookingDetailPage({
               {
                 time: "Today, 08:50",
                 agent: "Ops",
-                text: "Confirmed cleaning slot 11:00 — 14:00 with Maria L.",
+                text: "Confirmed cleaning slot 11:00–14:00 with Maria L.",
                 status: "sent" as const,
               },
               {

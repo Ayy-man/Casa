@@ -28,6 +28,19 @@
   ::selection {
     background: rgba(30, 95, 191, 0.15);
   }
+
+  /* Focus rings: PRODUCT.md a11y promise. 3px on :focus-visible, ink-tinted by default,
+     Signal Blue on primary CTAs. Kept :focus styles untouched for inputs that already
+     declare their own focus treatment. */
+  :focus-visible {
+    outline: 3px solid rgba(26, 26, 26, 0.18);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .btn-primary:focus-visible,
+  .btn-sm-primary:focus-visible {
+    outline-color: rgba(30, 95, 191, 0.55);
+  }
 }
 
 @layer components {
@@ -76,7 +89,7 @@
     transition: background 160ms ease, transform 160ms ease;
   }
   .btn-primary:hover {
-    background: #000000;
+    background: #0d0d0d;
   }
   .btn-primary:active {
     transform: translateY(1px);
@@ -333,6 +346,28 @@
   .kpi-card:hover .kpi-rule {
     background: #1e5fbf;
   }
+  /* Home KPI hierarchy: Open Exceptions leads at 60px display; the rest are quieter side rows */
+  .home-kpi-row {
+    grid-template-columns: minmax(280px, 1.1fr) 1fr;
+  }
+  .kpi-card--lead {
+    min-height: 200px;
+    padding: 22px 24px;
+  }
+  .kpi-card--lead .kpi-rule {
+    background: #1e5fbf;
+  }
+  .kpi-card--sm {
+    min-height: 0;
+    padding: 14px 16px;
+    flex-direction: column;
+    gap: 4px;
+  }
+  @media (max-width: 1023px) {
+    .home-kpi-row {
+      grid-template-columns: 1fr;
+    }
+  }
 
   .ex-card {
     background: #ffffff;
@@ -387,7 +422,7 @@
     align-items: center;
   }
   .btn-sm-primary { background: #1a1a1a; color: #ffffff; }
-  .btn-sm-primary:hover { background: #000; }
+  .btn-sm-primary:hover { background: #0d0d0d; }
   .btn-sm-primary:disabled { background: #c9c9c9; cursor: not-allowed; }
   .btn-sm-outline { background: #fff; color: #1a1a1a; border-color: #e5e5e5; }
   .btn-sm-outline:hover { border-color: #1a1a1a; background: #fafafa; }
@@ -879,6 +914,24 @@
     padding: 1px 5px;
     border-radius: 2px;
     margin-right: 4px;
+  }
+}
+
+/* Reduced motion: honor PRODUCT.md a11y promise across route fades, sheets, and KPI hovers */
+@media (prefers-reduced-motion: reduce) {
+  .route-fade,
+  .sheet-overlay,
+  .sheet {
+    animation: none !important;
+  }
+  .kpi-card,
+  .ex-card,
+  .prop-card {
+    transition: none !important;
+  }
+  .kpi-card:hover,
+  .prop-card:hover {
+    transform: none !important;
   }
 }
 

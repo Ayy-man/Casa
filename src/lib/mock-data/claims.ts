@@ -31,7 +31,7 @@ export const CLAIMS: {
       id: "CL-2026-0042",
       propertyId: "p03",
       guestName: "Mei L.",
-      bookingDates: "Apr 22 — Apr 27, 2026",
+      bookingDates: "Apr 22–Apr 27, 2026",
       bookingId: "BK-2026-0440",
       damage:
         "Long scratch (~14 in.) across hardwood in the dining area. Likely from chair leg dragged without felt pad. Discovered during turnover.",
@@ -46,7 +46,7 @@ export const CLAIMS: {
       id: "CL-2026-0043",
       propertyId: "p11",
       guestName: "Walsh, P.",
-      bookingDates: "Apr 18 — Apr 21, 2026",
+      bookingDates: "Apr 18–Apr 21, 2026",
       bookingId: "BK-2026-0431",
       damage:
         "Bedside table lamp shattered on the bedroom floor. Wax stain on the living room carpet near the sofa, approx 10cm.",
@@ -59,13 +59,13 @@ export const CLAIMS: {
     },
   ],
   submitted: [
-    { id: "CL-2026-0038", propertyId: "p10", guestName: "Sato, R.", bookingDates: "Apr 12 — Apr 16, 2026", cost: 320, status: "Submitted to Airbnb" },
-    { id: "CL-2026-0035", propertyId: "p07", guestName: "Brown, K.", bookingDates: "Apr 04 — Apr 09, 2026", cost: 145, status: "Awaiting guest reply" },
-    { id: "CL-2026-0031", propertyId: "p05", guestName: "Iyer, P.", bookingDates: "Mar 28 — Apr 01, 2026", cost: 800, status: "Disputed by guest" },
-    { id: "CL-2026-0029", propertyId: "p13", guestName: "Cole, R.", bookingDates: "Mar 22 — Mar 25, 2026", cost: 90, status: "Submitted to Vrbo" },
+    { id: "CL-2026-0038", propertyId: "p10", guestName: "Sato, R.", bookingDates: "Apr 12–Apr 16, 2026", cost: 320, status: "Submitted to Airbnb" },
+    { id: "CL-2026-0035", propertyId: "p07", guestName: "Brown, K.", bookingDates: "Apr 04–Apr 09, 2026", cost: 145, status: "Awaiting guest reply" },
+    { id: "CL-2026-0031", propertyId: "p05", guestName: "Iyer, P.", bookingDates: "Mar 28–Apr 01, 2026", cost: 800, status: "Disputed by guest" },
+    { id: "CL-2026-0029", propertyId: "p13", guestName: "Cole, R.", bookingDates: "Mar 22–Mar 25, 2026", cost: 90, status: "Submitted to Vrbo" },
   ],
   resolved: [
-    { id: "CL-2026-0024", propertyId: "p01", guestName: "Ng, T.", bookingDates: "Mar 10 — Mar 14, 2026", cost: 220, status: "Paid" },
+    { id: "CL-2026-0024", propertyId: "p01", guestName: "Ng, T.", bookingDates: "Mar 10–Mar 14, 2026", cost: 220, status: "Paid" },
   ],
 };
 

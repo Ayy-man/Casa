@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Bell, CircleHelp, Search } from "lucide-react";
 import { useAuth } from "@/lib/auth/context";
@@ -10,6 +10,8 @@ import { EXCEPTIONS } from "@/lib/mock-data/exceptions";
 export function TopBar({ onOpenPalette }: { onOpenPalette: () => void }) {
   const { user } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const onHome = pathname === "/";
   const [bellOpen, setBellOpen] = useState(false);
   const wrap = useRef<HTMLDivElement | null>(null);
 
@@ -53,7 +55,7 @@ export function TopBar({ onOpenPalette }: { onOpenPalette: () => void }) {
           className="topbar-search cursor-text"
           placeholder="Search properties, bookings, agent actions…"
         />
-        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] tracking-eyebrow uppercase text-neutral-400 bg-white border border-rule px-1.5 py-[2px] rounded-[2px]">
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] tracking-eyebrow uppercase text-neutral-600 bg-white border border-rule px-1.5 py-[2px] rounded-[2px]">
           ⌘ K
         </span>
       </div>
@@ -76,7 +78,7 @@ export function TopBar({ onOpenPalette }: { onOpenPalette: () => void }) {
             title="Notifications"
           >
             <Bell size={16} strokeWidth={1.5} />
-            {EXCEPTIONS.length > 0 && (
+            {EXCEPTIONS.length > 0 && !onHome && (
               <span className="notif-badge">{EXCEPTIONS.length}</span>
             )}
           </button>
@@ -87,7 +89,7 @@ export function TopBar({ onOpenPalette }: { onOpenPalette: () => void }) {
             >
               <div className="px-4 py-3 border-b border-rule flex items-center justify-between">
                 <span className="font-display text-[15px] tracking-tight">Exceptions</span>
-                <span className="text-[11px] text-neutral-400 tracking-eyebrow uppercase">
+                <span className="text-[11px] text-neutral-600 tracking-eyebrow uppercase">
                   {EXCEPTIONS.length} open
                 </span>
               </div>
@@ -114,7 +116,7 @@ export function TopBar({ onOpenPalette }: { onOpenPalette: () => void }) {
                             {e.summary}
                           </div>
                         </div>
-                        <span className="text-[10px] text-neutral-400 tabular-nums">
+                        <span className="text-[10px] text-neutral-600 tabular-nums">
                           {e.timeAgo}
                         </span>
                       </div>

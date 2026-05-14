@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Casa Command Center",
-  description: "Casa Properties — HumanOS workspace",
+  description: "Casa Properties · HumanOS workspace",
 };
 
 export default function RootLayout({

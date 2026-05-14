@@ -414,7 +414,7 @@ function FlagDialog({
           {sent ? (
             <div className="text-center py-4">
               <div className="font-display text-[24px] tracking-tight">
-                Thanks — noted.
+                Thanks, noted.
               </div>
               <p className="text-[13px] text-neutral-500 mt-2">
                 SOP Agent will pick this up in the next pass.
@@ -434,7 +434,7 @@ function FlagDialog({
                 Flag for correction
               </h2>
               <p className="text-[12.5px] text-neutral-500 mt-2">
-                {property.name} — the SOP Agent will review and update.
+                {property.name}. The SOP Agent will review and update.
               </p>
               <label className="block text-[11px] tracking-eyebrow uppercase text-neutral-500 mt-5 mb-2">
                 Field
