@@ -64,16 +64,22 @@ require judgment.
       `supabase gen types typescript`, replace every page's mock-data import
       with a Supabase query module
 - [ ] **REQ-DATA-02** Realtime data refresh on the dashboard — Supabase
-      realtime subscriptions OR 30-second polling so Carlos sees new exceptions
-      without manual refresh
-- [ ] **REQ-INT-01** Outbound n8n integration — Casa fires n8n webhooks when
-      Carlos clicks Approve/Reject/Dispatch/Override on exception cards
-- [ ] **REQ-INT-02** Inbound n8n integration — n8n notifies Casa when an agent
-      run completes; dashboard refreshes the affected exception/decision
+      `postgres_changes` subscriptions on `exceptions`, `agent_logs`,
+      `pricing_recs`, `turnovers` via a centralized `useRealtimeChannel` hook
+      with channel cleanup. 30-second polling reserved for Settings → API
+      Status (external health data) only.
+- [ ] **REQ-INT-01** Outbound integration plumbing — `vercel.json` cron
+      config, `/api/cron/{weekly-pricing,daily-event-scan}` routes,
+      `/api/actions/{domain}/{verb}` routes, HMAC signing helper
+      (`src/lib/n8n/sign.ts`), `N8N_WEBHOOK_BASE_URL` env wiring,
+      idempotency-key generation on every cross-system call
+- [ ] **REQ-INT-02** Inbound integration plumbing — `/api/webhooks/n8n/{event}`
+      handler with HMAC verification, timestamp replay window, `idempotency_key
+      UNIQUE` dedup; refresh affected exception/decision rows on callback
 - [ ] **REQ-INT-03** Functional action buttons end-to-end — every console.log
       stub on exception cards, claim sheets, pricing rows, cleaning dispatch,
-      and agent control panels writes to Supabase and (where applicable) fires
-      an n8n webhook
+      and agent control panels routes through `/api/actions/*`: writes to
+      Supabase and (where applicable) fires an HMAC-signed n8n action webhook
 - [ ] **REQ-AGENT-01** Pricing Agent backend wired — first integration test of
       the Casa ↔ n8n pattern. Replaces math-generated decisions in the Pricing
       Agent detail page with real `agent_logs` reads. Mode toggle
@@ -106,10 +112,11 @@ per agent; decision deferred to each agent's go-live moment.
 
 <!-- Explicit boundaries with reasoning. -->
 
-- **n8n agent workflow JSON / Claude prompt engineering** — n8n is treated as
-  an external system with versioned contracts. The agent flows live in
-  fyi-media.app.n8n.cloud and are built separately. This codebase owns the
-  integration contracts (webhook payloads, schemas) but not the flow definitions.
+- **Agent logic / n8n workflow JSON / Claude prompt engineering** — Agent
+  logic lives in n8n (visual workflow representation). The flows live in
+  fyi-media.app.n8n.cloud and are built separately. This codebase owns
+  schema, cron triggers, action routes, webhook receivers, realtime
+  subscriptions, and UI — but never embeds an LLM call or prompt.
 - **Real Supabase Auth migration** — Phase 2 concern. Carlos + Denika share
   hardcoded demo password through May/June shadow validation. Real auth is a
   go-live cutover task.
@@ -138,12 +145,32 @@ adjacent). The Command Center is single-tenant. Three users: Carlos (CEO,
 opens 5–10x/day), Denika (Portfolio Manager, continuous business-hours use),
 and 1–2 additional portfolio managers as the team grows.
 
-**Architecture.** n8n hosts the agent workflows and Claude API calls via
-OpenRouter (`anthropic/claude-sonnet-4.5`). Supabase is the durable state
-store — 12 tables + pgvector for per-property knowledge bases. This Next.js 14
-app reads from Supabase and writes via API routes that authenticate the
-session, mutate Supabase, and fire n8n webhooks for external actions
-(Hostaway send, WhatsApp dispatch, PriceLabs override).
+**Architecture.** n8n hosts the agent workflows (visual workflow
+representation) and Claude API calls via OpenRouter
+(`anthropic/claude-sonnet-4.5`). Supabase is the durable state store — 12
+tables + pgvector for per-property knowledge bases. This Next.js 14 app reads
+from Supabase and routes work through three API-route families. Agent logic
+never lives in this codebase.
+
+- **`/api/cron/*`** — Vercel Cron-triggered (config in `vercel.json`).
+  Authenticates the cron, then fans out HMAC-signed POSTs to n8n via
+  `process.env.N8N_WEBHOOK_BASE_URL`. Initial jobs:
+  - `weekly-pricing` — Monday 06:00 → Pricing Agent run trigger
+  - `daily-event-scan` — Daily 07:00 → event-window scan (FIFA week, etc.)
+  - `cleaner-escalation` — Every 1 min (added Phase 3) → evaluates
+    `turnovers.dispatch_state` for 60/120min escalation boundaries
+- **`/api/actions/*`** — Dashboard button handlers (Approve Resolution, Call
+  Cleaner, Dispatch Backup, Reject Rate, Override, etc.). Auth check →
+  Supabase write → optionally fire HMAC-signed POST to n8n action webhook.
+- **`/api/webhooks/*`** — Inbound. `/api/webhooks/n8n/{event}` is required
+  (n8n callbacks confirm vendor side-effects). Vendor-direct webhooks
+  (`/api/webhooks/hostaway/*`, `/api/webhooks/breezeway/*`) are optional and
+  used only where Casa-side logging is wanted before forwarding to n8n —
+  direct-to-n8n is acceptable for most events.
+
+Realtime subscriptions on `exceptions`, `agent_logs`, `pricing_recs`,
+`turnovers` keep Carlos's dashboard live without manual refresh. Polling is
+reserved for Settings → API Status (external health data).
 
 **Codebase starting point.** Demo skin is complete (12 dashboard routes, full
 editorial design system in `globals.css`, Playfair + Inter fonts, mock data
@@ -177,10 +204,12 @@ toggle in Pricing Agent is UI-only. The codebase map has the full list
 
 ## Constraints
 
-- **Tech stack**: Next.js 14 App Router · TypeScript · Tailwind +
+- **Tech stack**: Next.js 14.2.18 App Router · TypeScript · Tailwind +
   globals.css component classes · Supabase (Postgres + pgvector + realtime) ·
-  n8n (external) · Claude Sonnet 4.5 via OpenRouter (external) — Decided;
-  changing the stack would invalidate the demo skin.
+  Vercel Cron · n8n (external, fyi-media.app.n8n.cloud) · Claude Sonnet 4.5
+  via OpenRouter (external, called from n8n only) — Decided; changing the
+  stack would invalidate the demo skin. Add `zod@^3.23.8` + `nanoid@^5.0.7`
+  this milestone; everything else stays pinned.
 - **Timeline**: May 15 hard deadline — Carlos's day-shift VA leaves that day.
   Guest Agent + Ops Agent cleaner dispatch must replace VA's work by then.
 - **Brand**: PRODUCT.md and DESIGN.md are binding. Editorial, restrained,
@@ -207,7 +236,9 @@ toggle in Pricing Agent is UI-only. The codebase map has the full list
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| n8n is external; this repo owns Casa codebase only | Agent workflow definitions live in n8n cloud workspace; separating keeps GSD planning scope tractable and matches where the work actually happens | — Pending |
+| Agent logic lives in n8n; this codebase owns everything else | n8n's visual workflow representation is the right surface for agent flows. This codebase owns schema, cron triggers, action routes, webhook receivers, realtime, UI. No LLM calls or prompt engineering in this repo. | — Pending |
+| Three API-route families: `/api/cron/*`, `/api/actions/*`, `/api/webhooks/*` | Clean separation by trigger source: Vercel Cron, dashboard buttons, external callers. Each family has its own auth + signing convention. | — Pending |
+| Vercel Cron triggers Casa, Casa triggers n8n | Cron config lives in `vercel.json` (versioned with code). Casa's `/api/cron/*` route adds idempotency + audit log before firing n8n. Direct Vercel→n8n would lose the audit trail. | — Pending |
 | 12-table Supabase schema designed inside Phase 1 (not pre-specced) | User will dictate entities during data-layer phase; schema design + migrations + seed = single coherent phase | — Pending |
 | Per-agent shadow-vs-autonomous mode deferred to each agent's go-live moment | Different agents have different risk profiles (Ops cleaner dispatch is autonomous-with-escalation; Guest may need draft+approval). System supports either mode; decision is per-agent. | — Pending |
 | Hardcoded auth stays this milestone | Three users, all known, no production data yet. Real Supabase Auth is a cutover concern for Phase 2. | — Pending |
@@ -234,4 +265,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-14 after initialization*
+*Last updated: 2026-05-14 after initialization + architectural directive (Vercel Cron + 3 API route families + agent logic in n8n only)*
