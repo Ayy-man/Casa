@@ -19,6 +19,19 @@ interface PublishButtonProps {
 type State = "idle" | "holding" | "publishing" | "published";
 
 /**
+ * Static class map. Required because Tailwind scans the codebase for
+ * literal class names — a `btn-publish--${state}` template literal would
+ * get purged from the build. Listing each variant explicitly keeps them
+ * in the bundle.
+ */
+const STATE_CLASS: Record<State, string> = {
+  idle: "btn-publish--idle",
+  holding: "btn-publish--holding",
+  publishing: "btn-publish--publishing",
+  published: "btn-publish--published",
+};
+
+/**
  * Press-and-hold confirm button. The user must sustain a press for
  * `holdDuration` before the action fires. Cancels on pointer leave,
  * touch end, blur, or key-up.
@@ -140,7 +153,7 @@ export function PublishButton({
     <button
       type="button"
       disabled={state === "publishing"}
-      className={`btn-publish btn-publish--${state} ${className}`.trim()}
+      className={`btn-publish ${STATE_CLASS[state]} ${className}`.trim()}
       onMouseDown={startHold}
       onMouseUp={cancelHold}
       onMouseLeave={cancelHold}
