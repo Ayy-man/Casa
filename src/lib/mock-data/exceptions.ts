@@ -10,6 +10,12 @@ export type ExceptionItem = {
   summary: string;
   timeAgo: string;
   actions: string[];
+  /**
+   * When true, the primary action requires a two-step confirm.
+   * Set on the data, not inferred from verb patterns, so future actions
+   * like "Issue Refund" or "Override Rate" can opt in explicitly.
+   */
+  requiresConfirm?: boolean;
 };
 
 export const EXCEPTIONS: ExceptionItem[] = [
@@ -23,6 +29,7 @@ export const EXCEPTIONS: ExceptionItem[] = [
     summary: "Guest reports broken AC, 32°C inside. Demands resolution or refund.",
     timeAgo: "8 min ago",
     actions: ["Approve Resolution", "Call Guest", "Assign Contractor"],
+    requiresConfirm: true,
   },
   {
     id: 2,
@@ -47,6 +54,7 @@ export const EXCEPTIONS: ExceptionItem[] = [
       "Damage claim drafted: scratched hardwood floor. Estimated cost $480.",
     timeAgo: "1 hr ago",
     actions: ["Approve Claim", "Edit", "Reject"],
+    requiresConfirm: true,
   },
   {
     id: 4,

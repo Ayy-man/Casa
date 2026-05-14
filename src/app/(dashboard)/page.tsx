@@ -42,8 +42,7 @@ const SECONDARY_KPIS = [
 const agentSlug = (agent: string) =>
   agent.toLowerCase().replace(/\s+agent$/i, "").trim();
 
-const isHighStakes = (ex: ExceptionItem) =>
-  ex.urgency === "Critical" || /^Approve/i.test(ex.actions[0] ?? "");
+const CONFIRM_WINDOW_MS = 6000;
 
 function ExceptionCard({
   ex,
@@ -55,16 +54,16 @@ function ExceptionCard({
   const router = useRouter();
   const [primary, ...rest] = ex.actions;
   const [confirming, setConfirming] = useState(false);
-  const highStakes = isHighStakes(ex);
+  const requiresConfirm = ex.requiresConfirm === true;
 
   useEffect(() => {
     if (!confirming) return;
-    const t = window.setTimeout(() => setConfirming(false), 4000);
+    const t = window.setTimeout(() => setConfirming(false), CONFIRM_WINDOW_MS);
     return () => window.clearTimeout(t);
   }, [confirming]);
 
   const handlePrimary = () => {
-    if (highStakes && !confirming) {
+    if (requiresConfirm && !confirming) {
       setConfirming(true);
       return;
     }
@@ -103,7 +102,14 @@ function ExceptionCard({
               onClick={handlePrimary}
               autoFocus
             >
-              Confirm {primary.toLowerCase().startsWith("approve") ? "approval" : primary}
+              <span className="confirm-label">
+                Confirm {primary.toLowerCase().startsWith("approve") ? "approval" : primary}
+              </span>
+              <span
+                className="confirm-sliver"
+                style={{ animationDuration: `${CONFIRM_WINDOW_MS}ms` }}
+                aria-hidden="true"
+              />
             </button>
             <button
               type="button"
@@ -113,7 +119,7 @@ function ExceptionCard({
               Cancel
             </button>
             <span className="text-[11.5px] text-neutral-600 ml-1">
-              {highStakes ? "Confirms a financial commit" : "Confirm to proceed"}
+              Confirms a financial commit · auto-cancels in {CONFIRM_WINDOW_MS / 1000}s
             </span>
           </>
         ) : (
@@ -465,53 +471,18 @@ export default function HomePage() {
         <div
           role="status"
           aria-live="polite"
-          style={{
-            position: "fixed",
-            bottom: 28,
-            left: "50%",
-            transform: "translateX(-50%)",
-            display: "flex",
-            flexDirection: "column-reverse",
-            gap: 8,
-            zIndex: 100,
-            maxWidth: 520,
-            width: "calc(100vw - 32px)",
-          }}
+          className="toast-stack"
         >
           {toasts.map((toast) => (
-            <div
-              key={toast.id}
-              style={{
-                background: "#1A1A1A",
-                color: "#FFFFFF",
-                padding: "10px 14px 10px 18px",
-                borderRadius: 2,
-                boxShadow: "0 12px 32px -8px rgba(26,26,26,0.4)",
-                fontSize: 13,
-                letterSpacing: "0.01em",
-                display: "flex",
-                alignItems: "center",
-                gap: 14,
-              }}
-            >
-              <CheckCircle size={14} strokeWidth={1.6} />
+            <div key={toast.id} className="toast-row">
+              <CheckCircle size={14} strokeWidth={1.6} className="shrink-0" />
               <span className="truncate flex-1 min-w-0">
                 {toast.action} · {toast.property}
               </span>
               <button
                 type="button"
                 onClick={() => dismissToast(toast.id)}
-                style={{
-                  fontSize: 11,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "#FFFFFF",
-                  opacity: 0.85,
-                  border: "1px solid rgba(255,255,255,0.3)",
-                  padding: "4px 10px",
-                  borderRadius: 2,
-                  background: "transparent",
-                }}
+                className="toast-undo"
               >
                 Undo
               </button>

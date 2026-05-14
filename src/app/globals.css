@@ -492,14 +492,37 @@
   .btn-sm-outline { background: #fff; color: #1a1a1a; border-color: #e5e5e5; }
   .btn-sm-outline:hover { border-color: #1a1a1a; background: #fafafa; }
   /* Confirm tier for high-stakes Approve actions. Amber tint signals
-     "this is a financial commit," not the same as a single-click primary. */
+     "this is a financial commit," not the same as a single-click primary.
+     The countdown sliver shows the auto-cancel window depleting. */
   .btn-sm-confirm {
     background: #fbf5e9;
     color: #6b4a12;
     border: 1px solid #efe3c7;
     font-weight: 500;
+    position: relative;
+    overflow: hidden;
   }
   .btn-sm-confirm:hover { background: #f6ecd5; border-color: #e0cca3; }
+  .btn-sm-confirm .confirm-label {
+    position: relative;
+    z-index: 1;
+  }
+  .btn-sm-confirm .confirm-sliver {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: #1e5fbf;
+    transform-origin: left center;
+    animation-name: confirm-shrink;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  @keyframes confirm-shrink {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+  }
   /* Overflow trigger for secondary card actions */
   .btn-sm-overflow {
     width: 32px;
@@ -1009,6 +1032,51 @@
     border-radius: 2px;
     margin-right: 4px;
   }
+
+  /* Toast stack: dock to bottom-right so it lives with the side-rail,
+     not on top of the exception card column. Telegraphic, cockpit-grade. */
+  .toast-stack {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    left: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    z-index: 100;
+    width: 360px;
+    max-width: calc(100vw - 56px);
+    pointer-events: none;
+  }
+  .toast-row {
+    pointer-events: auto;
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 10px 12px 10px 14px;
+    border-radius: 2px;
+    box-shadow: 0 12px 32px -8px rgba(26, 26, 26, 0.4);
+    font-size: 12.5px;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .toast-undo {
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    padding: 3px 9px;
+    border-radius: 2px;
+    background: transparent;
+    transition: background 140ms ease, border-color 140ms ease;
+    flex-shrink: 0;
+  }
+  .toast-undo:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.8);
+  }
 }
 
 /* Reduced motion: honor PRODUCT.md a11y promise across route fades, sheets, and KPI hovers */
@@ -1026,6 +1094,11 @@
   .kpi-card:hover,
   .prop-card:hover {
     transform: none !important;
+  }
+  /* Hide the countdown sliver under reduced-motion; the helper text
+     ("auto-cancels in 6s") still carries the timing information. */
+  .btn-sm-confirm .confirm-sliver {
+    display: none;
   }
 }
 
