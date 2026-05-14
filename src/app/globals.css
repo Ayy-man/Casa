@@ -159,6 +159,28 @@
   .nav-item.active .nav-dot {
     background: #1e5fbf;
   }
+  /* Persistent global counter chip for nav items that surface a workload
+     (e.g. Today shows the open-exception count). Quiet, editorial; not
+     amber — the banner already does amber on the page itself. */
+  .nav-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 18px;
+    padding: 0 6px;
+    margin-right: 12px;
+    background: #f1f1f0;
+    color: #525252;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .nav-item.active .nav-count {
+    background: #eaf1fb;
+    color: #1e5fbf;
+  }
 
   .group-label {
     font-family: var(--font-playfair), Georgia, serif;
@@ -491,37 +513,78 @@
   .btn-sm-primary:disabled { background: #c9c9c9; cursor: not-allowed; }
   .btn-sm-outline { background: #fff; color: #1a1a1a; border-color: #e5e5e5; }
   .btn-sm-outline:hover { border-color: #1a1a1a; background: #fafafa; }
-  /* Confirm tier for high-stakes Approve actions. Amber tint signals
-     "this is a financial commit," not the same as a single-click primary.
-     The countdown sliver shows the auto-cancel window depleting. */
-  .btn-sm-confirm {
+  /* Press-and-hold confirm button (PublishButton component).
+     Idle: standard primary (#1A1A1A on white text).
+     Holding: amber Shadow-Mode tint signals "financial commit imminent".
+     Publishing: 600ms flash back to primary.
+     Published: success quartet, with Check pop-in. */
+  .btn-publish {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 32px;
+    min-width: 180px;
+    padding: 0 36px 0 14px;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition: background 200ms ease, border-color 200ms ease,
+      color 200ms ease, transform 120ms ease;
+  }
+  .btn-publish--idle {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+  .btn-publish--idle:hover {
+    background: #0d0d0d;
+  }
+  .btn-publish--holding {
     background: #fbf5e9;
     color: #6b4a12;
-    border: 1px solid #efe3c7;
+    border-color: #efe3c7;
+    cursor: grabbing;
+    transform: scale(0.98);
+  }
+  .btn-publish--publishing {
+    background: #1a1a1a;
+    color: #ffffff;
+    cursor: not-allowed;
+  }
+  .btn-publish--published {
+    background: #f1f6f0;
+    color: #2e6f2a;
+    border-color: #dde7da;
     font-weight: 500;
-    position: relative;
-    overflow: hidden;
+    padding-right: 36px;
   }
-  .btn-sm-confirm:hover { background: #f6ecd5; border-color: #e0cca3; }
-  .btn-sm-confirm .confirm-label {
-    position: relative;
-    z-index: 1;
+  .btn-publish-label {
+    display: inline-block;
   }
-  .btn-sm-confirm .confirm-sliver {
+  .btn-publish-ring {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 2px;
-    background: #1e5fbf;
-    transform-origin: left center;
-    animation-name: confirm-shrink;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
   }
-  @keyframes confirm-shrink {
-    from { transform: scaleX(1); }
-    to { transform: scaleX(0); }
+  .btn-publish-check {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: pop-in 0.3s ease-out forwards;
+  }
+  @keyframes pop-in {
+    0% { transform: translateY(-50%) scale(0.6); opacity: 0; }
+    60% { transform: translateY(-50%) scale(1.1); opacity: 1; }
+    100% { transform: translateY(-50%) scale(1); opacity: 1; }
   }
   /* Overflow trigger for secondary card actions */
   .btn-sm-overflow {
@@ -1033,33 +1096,30 @@
     margin-right: 4px;
   }
 
-  /* Toast stack: dock to bottom-right so it lives with the side-rail,
-     not on top of the exception card column. Telegraphic, cockpit-grade. */
-  .toast-stack {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    left: auto;
+  /* Toast stack: inline at the top of the exception column.
+     Toasts-as-receipts model. Newest action records sit above the queue;
+     they don't compete with the side-rail. Cockpit DNA, not chat-app DNA. */
+  .toast-stack-inline {
     display: flex;
     flex-direction: column-reverse;
-    gap: 8px;
-    z-index: 100;
-    width: 360px;
-    max-width: calc(100vw - 56px);
-    pointer-events: none;
+    gap: 6px;
   }
   .toast-row {
-    pointer-events: auto;
     background: #1a1a1a;
     color: #ffffff;
-    padding: 10px 12px 10px 14px;
+    padding: 9px 11px 9px 13px;
     border-radius: 2px;
-    box-shadow: 0 12px 32px -8px rgba(26, 26, 26, 0.4);
+    box-shadow: 0 6px 18px -8px rgba(26, 26, 26, 0.35);
     font-size: 12.5px;
     letter-spacing: 0.01em;
     display: flex;
     align-items: center;
     gap: 10px;
+    animation: toast-in 200ms ease-out both;
+  }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: none; }
   }
   .toast-undo {
     font-size: 10.5px;
@@ -1077,28 +1137,43 @@
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.8);
   }
+
+  /* Banner-anchor flash: brief Signal Blue outline on the Critical card
+     after the user clicks "Jump to it" in the banner. */
+  .ex-card--flash {
+    box-shadow: 0 0 0 2px rgba(30, 95, 191, 0.45),
+      0 14px 38px -22px rgba(26, 26, 26, 0.22);
+    animation: ex-card-flash 1800ms ease-out forwards;
+  }
+  @keyframes ex-card-flash {
+    0% { box-shadow: 0 0 0 0 rgba(30, 95, 191, 0.55); }
+    20% { box-shadow: 0 0 0 3px rgba(30, 95, 191, 0.45); }
+    100% { box-shadow: 0 0 0 0 rgba(30, 95, 191, 0); }
+  }
 }
 
-/* Reduced motion: honor PRODUCT.md a11y promise across route fades, sheets, and KPI hovers */
+/* Reduced motion: honor PRODUCT.md a11y promise across route fades, sheets, hovers,
+   PublishButton motion, toast entrance, and the banner-anchor flash. */
 @media (prefers-reduced-motion: reduce) {
   .route-fade,
   .sheet-overlay,
-  .sheet {
+  .sheet,
+  .toast-row,
+  .ex-card--flash,
+  .btn-publish-check {
     animation: none !important;
   }
   .kpi-card,
   .ex-card,
-  .prop-card {
+  .prop-card,
+  .btn-publish,
+  .btn-publish-ring path {
     transition: none !important;
   }
   .kpi-card:hover,
-  .prop-card:hover {
+  .prop-card:hover,
+  .btn-publish--holding {
     transform: none !important;
-  }
-  /* Hide the countdown sliver under reduced-motion; the helper text
-     ("auto-cancels in 6s") still carries the timing information. */
-  .btn-sm-confirm .confirm-sliver {
-    display: none;
   }
 }
 

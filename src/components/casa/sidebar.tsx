@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth/context";
+import { EXCEPTIONS } from "@/lib/mock-data/exceptions";
 
 type NavItem = {
   to: string;
@@ -25,6 +26,8 @@ type NavItem = {
   icon?: LucideIcon;
   indent?: boolean;
   end?: boolean;
+  /** Function returning a numeric badge count, or undefined to hide. */
+  badge?: () => number | undefined;
 };
 
 type NavGroup = {
@@ -36,7 +39,13 @@ const NAV_GROUPS: NavGroup[] = [
   {
     label: "Daily",
     items: [
-      { to: "/", name: "Home", icon: House, end: true },
+      {
+        to: "/",
+        name: "Today",
+        icon: House,
+        end: true,
+        badge: () => (EXCEPTIONS.length > 0 ? EXCEPTIONS.length : undefined),
+      },
       { to: "/pricing", name: "Pricing", icon: Tag },
       { to: "/cleanings", name: "Cleanings", icon: Sparkles },
       { to: "/claims", name: "Claims", icon: FileText },
@@ -95,11 +104,11 @@ export function Sidebar() {
       style={{ height: "calc(100vh - 60px)" }}
     >
       <div className="px-[22px] pt-7 pb-5">
-        <div className="text-[11px] tracking-eyebrow uppercase text-neutral-400">Workspace</div>
+        <div className="text-[11px] tracking-eyebrow uppercase text-neutral-600">Workspace</div>
         <div className="mt-1 flex items-baseline gap-2">
           <div className="font-display text-[18px] tracking-tight">Casa Properties</div>
         </div>
-        <div className="text-[11px] text-neutral-400 mt-0.5">Vancouver, BC · 26 homes</div>
+        <div className="text-[11.5px] text-neutral-600 mt-0.5">Vancouver, BC · 26 homes</div>
       </div>
 
       <div className="hr-soft mx-[22px]" />
@@ -112,18 +121,29 @@ export function Sidebar() {
               {g.items.map((it) => {
                 const active = isActive(pathname, it.to, it.end);
                 const Icon = it.icon;
+                const badgeValue = it.badge?.();
                 return (
                   <li key={it.to}>
                     <Link
                       href={it.to}
                       className={`nav-item ${it.indent ? "indent" : ""} ${active ? "active" : ""}`}
+                      aria-label={
+                        badgeValue !== undefined
+                          ? `${it.name}, ${badgeValue} open`
+                          : undefined
+                      }
                     >
                       {it.indent ? (
                         <span className="nav-dot" />
                       ) : Icon ? (
                         <Icon size={14} strokeWidth={1.5} />
                       ) : null}
-                      <span>{it.name}</span>
+                      <span className="flex-1">{it.name}</span>
+                      {badgeValue !== undefined && (
+                        <span className="nav-count tabular-nums" aria-hidden="true">
+                          {badgeValue}
+                        </span>
+                      )}
                     </Link>
                   </li>
                 );
@@ -157,9 +177,9 @@ export function Sidebar() {
           <span className="avatar avatar-sm">{user?.initials ?? "··"}</span>
           <span className="flex-1 min-w-0">
             <span className="block text-[13px] text-neutral-900 truncate">{user?.name}</span>
-            <span className="block text-[11px] text-neutral-500 truncate">{user?.role}</span>
+            <span className="block text-[11.5px] text-neutral-600 truncate">{user?.role}</span>
           </span>
-          <ChevronDown size={14} strokeWidth={1.5} className="text-neutral-400" />
+          <ChevronDown size={14} strokeWidth={1.5} className="text-neutral-600" />
         </button>
       </div>
     </aside>

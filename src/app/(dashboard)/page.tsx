@@ -26,6 +26,7 @@ import {
   TODAY_CHECKINS,
   TODAY_CHECKOUTS,
 } from "@/lib/mock-data/bookings";
+import { PublishButton } from "@/components/ui/publish-button";
 
 const LEAD_KPI = {
   label: "Resolved today",
@@ -42,37 +43,39 @@ const SECONDARY_KPIS = [
 const agentSlug = (agent: string) =>
   agent.toLowerCase().replace(/\s+agent$/i, "").trim();
 
-const CONFIRM_WINDOW_MS = 6000;
+const CRITICAL_ANCHOR_ID = "exception-critical-anchor";
+
+/**
+ * Naive past-tense for action labels. Works for the verbs we actually ship:
+ * Approve → Approved, Call → Called, Snooze → Snoozed, Dispatch → Dispatched,
+ * Resolve → Resolved, Edit → Edited, Reject → Rejected, Review → Reviewed.
+ * The first whitespace-separated word is the verb; the rest is the object.
+ */
+const pastTense = (action: string) => {
+  const [verb, ...rest] = action.split(" ");
+  if (!verb) return action;
+  const past = verb.endsWith("e") ? verb + "d" : verb + "ed";
+  return [past, ...rest].join(" ");
+};
 
 function ExceptionCard({
   ex,
   onAction,
+  isFirstCritical,
 }: {
   ex: ExceptionItem;
   onAction: (action: string, ex: ExceptionItem) => void;
+  isFirstCritical?: boolean;
 }) {
   const router = useRouter();
   const [primary, ...rest] = ex.actions;
-  const [confirming, setConfirming] = useState(false);
   const requiresConfirm = ex.requiresConfirm === true;
 
-  useEffect(() => {
-    if (!confirming) return;
-    const t = window.setTimeout(() => setConfirming(false), CONFIRM_WINDOW_MS);
-    return () => window.clearTimeout(t);
-  }, [confirming]);
-
-  const handlePrimary = () => {
-    if (requiresConfirm && !confirming) {
-      setConfirming(true);
-      return;
-    }
-    setConfirming(false);
-    onAction(primary, ex);
-  };
-
   return (
-    <article className="ex-card">
+    <article
+      className="ex-card scroll-mt-6"
+      id={isFirstCritical ? CRITICAL_ANCHOR_ID : undefined}
+    >
       <header className="flex items-start justify-between gap-4 mb-3">
         <div className="flex items-center gap-3 min-w-0">
           <span className={`urgency-dot urg-${ex.urgency}`} />
@@ -94,74 +97,52 @@ function ExceptionCard({
       </p>
 
       <div className="flex flex-wrap items-center gap-2 mt-5">
-        {confirming ? (
-          <>
-            <button
-              type="button"
-              className="btn-sm btn-sm-confirm"
-              onClick={handlePrimary}
-              autoFocus
-            >
-              <span className="confirm-label">
-                Confirm {primary.toLowerCase().startsWith("approve") ? "approval" : primary}
-              </span>
-              <span
-                className="confirm-sliver"
-                style={{ animationDuration: `${CONFIRM_WINDOW_MS}ms` }}
-                aria-hidden="true"
-              />
-            </button>
-            <button
-              type="button"
-              className="btn-sm btn-sm-outline"
-              onClick={() => setConfirming(false)}
-            >
-              Cancel
-            </button>
-            <span className="text-[11.5px] text-neutral-600 ml-1">
-              Confirms a financial commit · auto-cancels in {CONFIRM_WINDOW_MS / 1000}s
-            </span>
-          </>
+        {requiresConfirm ? (
+          <PublishButton
+            onPublish={() => onAction(primary, ex)}
+            holdDuration={1800}
+            label={`Hold to ${primary.toLowerCase()}`}
+            publishingLabel={`${primary}…`}
+            publishedLabel={pastTense(primary)}
+          />
         ) : (
-          <>
-            <button
-              type="button"
-              className="btn-sm btn-sm-primary"
-              onClick={handlePrimary}
-            >
-              {primary}
-            </button>
-            {rest.length > 0 && (
-              <Dropdown.Root>
-                <Dropdown.Trigger asChild>
-                  <button
-                    type="button"
-                    className="btn-sm btn-sm-overflow"
-                    aria-label={`More actions for ${ex.typeLabel}`}
+          <button
+            type="button"
+            className="btn-sm btn-sm-primary"
+            onClick={() => onAction(primary, ex)}
+          >
+            {primary}
+          </button>
+        )}
+        {rest.length > 0 && (
+          <Dropdown.Root>
+            <Dropdown.Trigger asChild>
+              <button
+                type="button"
+                className="btn-sm btn-sm-overflow"
+                aria-label={`More actions for ${ex.typeLabel}`}
+              >
+                <MoreHorizontal size={14} strokeWidth={1.5} />
+              </button>
+            </Dropdown.Trigger>
+            <Dropdown.Portal>
+              <Dropdown.Content
+                align="start"
+                sideOffset={6}
+                className="menu-pop-floating"
+              >
+                {rest.map((a) => (
+                  <Dropdown.Item
+                    key={a}
+                    onSelect={() => onAction(a, ex)}
+                    className="menu-pop-item"
                   >
-                    <MoreHorizontal size={14} strokeWidth={1.5} />
-                  </button>
-                </Dropdown.Trigger>
-                <Dropdown.Portal>
-                  <Dropdown.Content
-                    align="start"
-                    sideOffset={6}
-                    className="menu-pop-floating"
-                  >
-                    {rest.map((a) => (
-                      <Dropdown.Item
-                        key={a}
-                        onSelect={() => onAction(a, ex)}
-                        className="menu-pop-item"
-                      >
-                        {a}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Content>
-                </Dropdown.Portal>
-              </Dropdown.Root>
-            )}
-          </>
+                    {a}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Content>
+            </Dropdown.Portal>
+          </Dropdown.Root>
         )}
         <span className="flex-1" />
         <button
@@ -257,6 +238,18 @@ export default function HomePage() {
     timers.current.set(id, timeoutId);
   };
 
+  const firstCriticalAgent = exceptions.find((e) => e.urgency === "Critical")?.agent ?? null;
+  const firstCriticalTimeAgo =
+    exceptions.find((e) => e.urgency === "Critical")?.timeAgo ?? null;
+
+  const scrollToCritical = () => {
+    const el = document.getElementById(CRITICAL_ANCHOR_ID);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.classList.add("ex-card--flash");
+    window.setTimeout(() => el.classList.remove("ex-card--flash"), 1800);
+  };
+
   const banner =
     exceptionCount > 0 ? (
       <div className="status-banner status-amber">
@@ -268,7 +261,22 @@ export default function HomePage() {
             {exceptionCount} items need your attention
           </h1>
           <div className="text-[13px] mt-0.5 opacity-80">
-            Sorted by urgency. The Guest Agent flagged one critical item 8 minutes ago.
+            Sorted by urgency.
+            {firstCriticalAgent && firstCriticalTimeAgo && (
+              <>
+                {" "}
+                The {firstCriticalAgent} flagged one critical item {firstCriticalTimeAgo}.
+                {" "}
+                <button
+                  type="button"
+                  onClick={scrollToCritical}
+                  className="underline underline-offset-2 hover:opacity-100 opacity-90"
+                  aria-controls={CRITICAL_ANCHOR_ID}
+                >
+                  Jump to it ↓
+                </button>
+              </>
+            )}
           </div>
         </div>
         <button
@@ -297,9 +305,8 @@ export default function HomePage() {
     );
 
   return (
-    <>
-      <div className="route-fade">
-        {banner}
+    <div className="route-fade">
+      {banner}
 
         <div className="page-pad">
           <div className="section-eyebrow mb-5">Today · Friday, May 1</div>
@@ -354,17 +361,62 @@ export default function HomePage() {
                 <div>
                   <div className="section-eyebrow">Exceptions</div>
                   <h2 className="font-display text-[24px] tracking-tight mt-0.5">
-                    Needs your attention
+                    Open queue
                   </h2>
                 </div>
                 <div className="text-[12px] text-neutral-600">
                   Sorted by urgency
                 </div>
               </div>
+
+              {toasts.length > 0 && (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="toast-stack-inline mb-3"
+                >
+                  {toasts.map((toast) => {
+                    const past = pastTense(toast.action);
+                    return (
+                      <div
+                        key={toast.id}
+                        className="toast-row"
+                        aria-label={`${past} at ${toast.property}. Undo available.`}
+                      >
+                        <CheckCircle size={14} strokeWidth={1.6} className="shrink-0" aria-hidden="true" />
+                        <span className="truncate flex-1 min-w-0">
+                          {past} · {toast.property}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => dismissToast(toast.id)}
+                          className="toast-undo"
+                          aria-label={`Undo ${past} at ${toast.property}`}
+                        >
+                          Undo
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
               <div className="flex flex-col gap-3">
-                {exceptions.map((e) => (
-                  <ExceptionCard key={e.id} ex={e} onAction={handleAction} />
-                ))}
+                {(() => {
+                  let firstCriticalSeen = false;
+                  return exceptions.map((e) => {
+                    const isFirstCritical = !firstCriticalSeen && e.urgency === "Critical";
+                    if (isFirstCritical) firstCriticalSeen = true;
+                    return (
+                      <ExceptionCard
+                        key={e.id}
+                        ex={e}
+                        onAction={handleAction}
+                        isFirstCritical={isFirstCritical}
+                      />
+                    );
+                  });
+                })()}
               </div>
             </section>
 
@@ -466,30 +518,5 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
-      {toasts.length > 0 && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="toast-stack"
-        >
-          {toasts.map((toast) => (
-            <div key={toast.id} className="toast-row">
-              <CheckCircle size={14} strokeWidth={1.6} className="shrink-0" />
-              <span className="truncate flex-1 min-w-0">
-                {toast.action} · {toast.property}
-              </span>
-              <button
-                type="button"
-                onClick={() => dismissToast(toast.id)}
-                className="toast-undo"
-              >
-                Undo
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </>
   );
 }
