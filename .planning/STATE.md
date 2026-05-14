@@ -11,10 +11,10 @@ See: .planning/PROJECT.md (updated 2026-05-14)
 
 ## Current Position
 
-Phase: 1 of 5 (Data Foundation)
+Phase: 1 of 5 (Data Foundation — 36hr sprint)
 Plan: 0 of TBD in current phase
 Status: Ready to plan
-Last activity: 2026-05-14 — Roadmap created; 41 requirements mapped across 5 phases; 100% coverage.
+Last activity: 2026-05-14 — Phase 1 scope compressed to 6 reqs (DATA-01/03/04/06/07/08). DATA-02 → Phase 4 (pgvector lands with Guest KB). DATA-05 + UI-01 → Phase 5 polish. UI-03 → v2 (V2-PERF-04). 40 v1 reqs across 5 phases; coverage intact.
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -47,6 +47,9 @@ Decisions are logged in PROJECT.md Key Decisions table. Recent decisions affecti
 - 2026-05-14: Three API-route families — `/api/cron/*` (Vercel Cron → n8n), `/api/actions/*` (dashboard buttons → Supabase + n8n), `/api/webhooks/*` (inbound from n8n + selected vendors).
 - 2026-05-14: Pricing Agent is the integration validation target — no Rachit dependency; proves Casa ↔ Supabase ↔ n8n pattern before Guest/Ops critical path.
 - 2026-05-14: Build order locked — Data foundation → Pricing → Ops cleaner dispatch → Guest → Verification/SOP scaffold.
+- 2026-05-14: Phase 1 compressed to 36hr sprint — 6 strict-blocker reqs only (schema, types, env fix, cookie shape, slim seed, 8 data modules + 3 page migrations). pgvector moves to Phase 4 (lands when Guest KB needs it). ESLint guard + hardcoded dates move to Phase 5 polish. Home→RSC defers to v2.
+- 2026-05-14: "Events" = `exceptions` + `agent_runs` + `action_log` tables. Eight Phase-1 data modules: properties, bookings, agents, agent_runs, agent_logs, pricing_recs, exceptions, action_log.
+- 2026-05-14: Pricing Agent n8n workflow `gIcYI8N1i1ljtCnW` is built and mock-validated; gated on schema landing. Supabase project `aqsitrzbjokkkpcohple` is provisioned; creds in Vercel + n8n.
 
 ### Pending Todos
 

@@ -24,9 +24,13 @@
       `supabase gen types typescript`; `npm run gen:types` script committed
 - [ ] **DATA-05**: `src/lib/data/*.ts` is the ONLY entity-data import path;
       build fails on `@/lib/mock-data` imports outside `src/lib/data/`
-- [ ] **DATA-06**: Every dashboard page reads through `src/lib/data/*`
-      (Home, Pricing, Cleanings, Claims, Properties, Bookings, all agent
-      pages, Reports, Settings)
+- [ ] **DATA-06**: Eight data modules built —
+      `src/lib/data/{properties,bookings,agents,agent_runs,agent_logs,pricing_recs,exceptions,action_log}.ts`.
+      Phase 1 pages (Home, Pricing, Pricing Agent detail) migrated to read
+      from these modules in Phase 1. Remaining pages (Cleanings, Claims,
+      Bookings detail, Properties detail, agent skeleton pages, Reports,
+      Settings) migrate to `src/lib/data/*` as their respective phases land
+      (bundled into each phase's scope, not a separate requirement).
 - [ ] **DATA-07**: Env var rename
       `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
       across `src/utils/supabase/{client,server,middleware}.ts`;
@@ -143,9 +147,6 @@
       with Pricing Agent — replace `<AgentSkeleton>` with full section
       structure (At a Glance, Live Activity, Decisions, Property Breakdown,
       Validation, Controls)
-- [ ] **UI-03**: Home page converted from `"use client"` to RSC with
-      subscribed client leaves for live data — proves the RSC pattern;
-      other pages convert opportunistically as data-fetching rewires
 - [ ] **UI-04**: `src/app/(dashboard)/error.tsx` top-level error boundary
       prevents blank-screen crashes from n8n callback exceptions
 - [ ] **UI-05**: Sonner `<Toaster />` wired in dashboard layout; all action
@@ -210,7 +211,11 @@
   routes
 - **V2-PERF-03**: Remove unused Radix + sonner-overlap dependencies once
   focus-trap a11y work locks in which Radix primitives stay
-- **V2-PERF-04**: All-pages-to-RSC pass (currently opportunistic)
+- **V2-PERF-04**: All-pages-to-RSC pass — including the Home page conversion
+  from `"use client"` (deferred from v1's UI-03). The existing client-component
+  Home page works fine with the Phase 2 `useRealtimeChannel` hook; RSC
+  conversion is a performance/architecture cleanup, not a correctness
+  requirement for the May 15 milestone.
 
 ### Testing
 
@@ -240,63 +245,63 @@
 
 Each v1 requirement maps to exactly one phase. Filled by roadmapper 2026-05-14.
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
-| DATA-04 | Phase 1 | Pending |
-| DATA-05 | Phase 1 | Pending |
-| DATA-06 | Phase 1 | Pending |
-| DATA-07 | Phase 1 | Pending |
-| DATA-08 | Phase 1 | Pending |
-| INT-01 | Phase 2 | Pending |
-| INT-02 | Phase 2 | Pending |
-| INT-03 | Phase 2 | Pending |
-| INT-04 | Phase 2 | Pending |
-| INT-05 | Phase 2 | Pending |
-| INT-06 | Phase 2 | Pending |
-| INT-07 | Phase 2 | Pending |
-| ACT-01 | Phase 2 | Pending |
-| ACT-02 | Phase 2 | Pending |
-| ACT-03 | Phase 3 | Pending |
-| ACT-04 | Phase 3 | Pending |
-| ACT-05 | Phase 3 | Pending |
-| ACT-06 | Phase 2 | Pending |
-| ACT-07 | Phase 2 | Pending |
-| RT-01 | Phase 2 | Pending |
-| RT-02 | Phase 2 | Pending |
-| RT-03 | Phase 2 | Pending |
-| RT-04 | Phase 3 | Pending |
-| RT-05 | Phase 2 | Pending |
-| SAFE-01 | Phase 2 | Pending |
-| SAFE-02 | Phase 2 | Pending |
-| SAFE-03 | Phase 2 | Pending |
-| SAFE-04 | Phase 2 | Pending |
-| SAFE-05 | Phase 2 | Pending |
-| AGENT-01 | Phase 2 | Pending |
-| AGENT-02 | Phase 3 | Pending |
-| AGENT-03 | Phase 4 | Pending |
-| AGENT-04 | Phase 5 | Pending |
-| UI-01 | Phase 1 | Pending |
-| UI-02 | Phase 4 | Pending |
-| UI-03 | Phase 1 | Pending |
-| UI-04 | Phase 5 | Pending |
-| UI-05 | Phase 2 | Pending |
+| Requirement | Phase | Status | Notes |
+|-------------|-------|--------|-------|
+| DATA-01 | Phase 1 | Pending | 12-table schema deploy |
+| DATA-02 | Phase 4 | Pending | Moved from Phase 1 — pgvector + KB RPC only needed when Guest Agent lands |
+| DATA-03 | Phase 1 | Pending | Slim seed only (properties, agents, sample pricing/logs/exceptions); turnovers/claims/guests seed bundles into Phase 3/4 |
+| DATA-04 | Phase 1 | Pending | `gen:types` script |
+| DATA-05 | Phase 5 | Pending | Moved from Phase 1 — ESLint mock-data guard is regression prevention, not a 36hr-sprint blocker |
+| DATA-06 | Phase 1 | Pending | 8 data modules built; Phase 1 pages migrated. Cleanings/Claims migrate in Phase 3; Bookings detail + agent pages in Phase 4 (bundled scope) |
+| DATA-07 | Phase 1 | Pending | Env var rename + Zod validator |
+| DATA-08 | Phase 1 | Pending | Cookie shape verify |
+| INT-01 | Phase 2 | Pending | |
+| INT-02 | Phase 2 | Pending | |
+| INT-03 | Phase 2 | Pending | |
+| INT-04 | Phase 2 | Pending | |
+| INT-05 | Phase 2 | Pending | |
+| INT-06 | Phase 2 | Pending | |
+| INT-07 | Phase 2 | Pending | |
+| ACT-01 | Phase 2 | Pending | |
+| ACT-02 | Phase 2 | Pending | |
+| ACT-03 | Phase 3 | Pending | |
+| ACT-04 | Phase 3 | Pending | |
+| ACT-05 | Phase 3 | Pending | |
+| ACT-06 | Phase 2 | Pending | |
+| ACT-07 | Phase 2 | Pending | |
+| RT-01 | Phase 2 | Pending | |
+| RT-02 | Phase 2 | Pending | |
+| RT-03 | Phase 2 | Pending | |
+| RT-04 | Phase 3 | Pending | |
+| RT-05 | Phase 2 | Pending | |
+| SAFE-01 | Phase 2 | Pending | |
+| SAFE-02 | Phase 2 | Pending | |
+| SAFE-03 | Phase 2 | Pending | |
+| SAFE-04 | Phase 2 | Pending | |
+| SAFE-05 | Phase 2 | Pending | |
+| AGENT-01 | Phase 2 | Pending | |
+| AGENT-02 | Phase 3 | Pending | |
+| AGENT-03 | Phase 4 | Pending | |
+| AGENT-04 | Phase 5 | Pending | |
+| UI-01 | Phase 5 | Pending | Moved from Phase 1 — hardcoded date sweep is 15min polish work, not data-layer critical path |
+| UI-02 | Phase 4 | Pending | |
+| ~~UI-03~~ | — | Deferred | Moved to v2 (V2-PERF-04) — Home page works fine as client component with realtime; RSC conversion is performance cleanup, not May-15 correctness |
+| UI-04 | Phase 5 | Pending | |
+| UI-05 | Phase 2 | Pending | |
 
 **Coverage:**
-- v1 requirements: 41 total
-- Mapped to phases: 41
+- v1 requirements: 40 total (UI-03 moved to v2 as V2-PERF-04)
+- Mapped to phases: 40
 - Unmapped: 0
 
 **Per-phase counts:**
-- Phase 1 (Data Foundation): 10 requirements (DATA-01..08, UI-01, UI-03)
+- Phase 1 (Data Foundation, 36hr sprint): **6 requirements** (DATA-01, DATA-03, DATA-04, DATA-06, DATA-07, DATA-08)
 - Phase 2 (Integration Contracts + Pricing): 22 requirements (INT-01..07, ACT-01, ACT-02, ACT-06, ACT-07, RT-01, RT-02, RT-03, RT-05, SAFE-01..05, AGENT-01, UI-05)
 - Phase 3 (Ops Cleaner Dispatch): 5 requirements (ACT-03, ACT-04, ACT-05, RT-04, AGENT-02)
-- Phase 4 (Guest Agent): 2 requirements (AGENT-03, UI-02)
-- Phase 5 (Verification + SOP Scaffold): 2 requirements (AGENT-04, UI-04)
+- Phase 4 (Guest Agent): **3 requirements** (AGENT-03, UI-02, DATA-02 — pgvector landed here)
+- Phase 5 (Verification + SOP Scaffold + Polish): **4 requirements** (AGENT-04, UI-04, UI-01, DATA-05)
 
 ---
 
 *Requirements defined: 2026-05-14*
-*Last updated: 2026-05-14 — roadmapper filled traceability; 41/41 mapped*
+*Last updated: 2026-05-14 — Phase 1 compressed to 36hr critical path. DATA-02 → Phase 4 (with Guest Agent KB). DATA-05 + UI-01 → Phase 5 (polish). UI-03 → v2 (V2-PERF-04).*
