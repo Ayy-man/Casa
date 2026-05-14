@@ -238,58 +238,65 @@
 
 ## Traceability
 
-Empty until roadmapper runs. Each requirement maps to exactly one phase.
+Each v1 requirement maps to exactly one phase. Filled by roadmapper 2026-05-14.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | TBD | Pending |
-| DATA-02 | TBD | Pending |
-| DATA-03 | TBD | Pending |
-| DATA-04 | TBD | Pending |
-| DATA-05 | TBD | Pending |
-| DATA-06 | TBD | Pending |
-| DATA-07 | TBD | Pending |
-| DATA-08 | TBD | Pending |
-| INT-01 | TBD | Pending |
-| INT-02 | TBD | Pending |
-| INT-03 | TBD | Pending |
-| INT-04 | TBD | Pending |
-| INT-05 | TBD | Pending |
-| INT-06 | TBD | Pending |
-| INT-07 | TBD | Pending |
-| ACT-01 | TBD | Pending |
-| ACT-02 | TBD | Pending |
-| ACT-03 | TBD | Pending |
-| ACT-04 | TBD | Pending |
-| ACT-05 | TBD | Pending |
-| ACT-06 | TBD | Pending |
-| ACT-07 | TBD | Pending |
-| RT-01 | TBD | Pending |
-| RT-02 | TBD | Pending |
-| RT-03 | TBD | Pending |
-| RT-04 | TBD | Pending |
-| RT-05 | TBD | Pending |
-| SAFE-01 | TBD | Pending |
-| SAFE-02 | TBD | Pending |
-| SAFE-03 | TBD | Pending |
-| SAFE-04 | TBD | Pending |
-| SAFE-05 | TBD | Pending |
-| AGENT-01 | TBD | Pending |
-| AGENT-02 | TBD | Pending |
-| AGENT-03 | TBD | Pending |
-| AGENT-04 | TBD | Pending |
-| UI-01 | TBD | Pending |
-| UI-02 | TBD | Pending |
-| UI-03 | TBD | Pending |
-| UI-04 | TBD | Pending |
-| UI-05 | TBD | Pending |
+| DATA-01 | Phase 1 | Pending |
+| DATA-02 | Phase 1 | Pending |
+| DATA-03 | Phase 1 | Pending |
+| DATA-04 | Phase 1 | Pending |
+| DATA-05 | Phase 1 | Pending |
+| DATA-06 | Phase 1 | Pending |
+| DATA-07 | Phase 1 | Pending |
+| DATA-08 | Phase 1 | Pending |
+| INT-01 | Phase 2 | Pending |
+| INT-02 | Phase 2 | Pending |
+| INT-03 | Phase 2 | Pending |
+| INT-04 | Phase 2 | Pending |
+| INT-05 | Phase 2 | Pending |
+| INT-06 | Phase 2 | Pending |
+| INT-07 | Phase 2 | Pending |
+| ACT-01 | Phase 2 | Pending |
+| ACT-02 | Phase 2 | Pending |
+| ACT-03 | Phase 3 | Pending |
+| ACT-04 | Phase 3 | Pending |
+| ACT-05 | Phase 3 | Pending |
+| ACT-06 | Phase 2 | Pending |
+| ACT-07 | Phase 2 | Pending |
+| RT-01 | Phase 2 | Pending |
+| RT-02 | Phase 2 | Pending |
+| RT-03 | Phase 2 | Pending |
+| RT-04 | Phase 3 | Pending |
+| RT-05 | Phase 2 | Pending |
+| SAFE-01 | Phase 2 | Pending |
+| SAFE-02 | Phase 2 | Pending |
+| SAFE-03 | Phase 2 | Pending |
+| SAFE-04 | Phase 2 | Pending |
+| SAFE-05 | Phase 2 | Pending |
+| AGENT-01 | Phase 2 | Pending |
+| AGENT-02 | Phase 3 | Pending |
+| AGENT-03 | Phase 4 | Pending |
+| AGENT-04 | Phase 5 | Pending |
+| UI-01 | Phase 1 | Pending |
+| UI-02 | Phase 4 | Pending |
+| UI-03 | Phase 1 | Pending |
+| UI-04 | Phase 5 | Pending |
+| UI-05 | Phase 2 | Pending |
 
 **Coverage:**
 - v1 requirements: 41 total
-- Mapped to phases: 0
-- Unmapped: 41 ⚠ (roadmapper fills this)
+- Mapped to phases: 41
+- Unmapped: 0
+
+**Per-phase counts:**
+- Phase 1 (Data Foundation): 10 requirements (DATA-01..08, UI-01, UI-03)
+- Phase 2 (Integration Contracts + Pricing): 22 requirements (INT-01..07, ACT-01, ACT-02, ACT-06, ACT-07, RT-01, RT-02, RT-03, RT-05, SAFE-01..05, AGENT-01, UI-05)
+- Phase 3 (Ops Cleaner Dispatch): 5 requirements (ACT-03, ACT-04, ACT-05, RT-04, AGENT-02)
+- Phase 4 (Guest Agent): 2 requirements (AGENT-03, UI-02)
+- Phase 5 (Verification + SOP Scaffold): 2 requirements (AGENT-04, UI-04)
 
 ---
 
 *Requirements defined: 2026-05-14*
-*Last updated: 2026-05-14 after initial definition*
+*Last updated: 2026-05-14 — roadmapper filled traceability; 41/41 mapped*
