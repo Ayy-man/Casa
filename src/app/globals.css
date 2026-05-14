@@ -163,11 +163,29 @@
   .group-label {
     font-family: var(--font-playfair), Georgia, serif;
     font-style: italic;
-    color: #9a9a9a;
+    color: #737373;
     font-size: 11px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     padding: 0 22px;
+  }
+
+  /* Load-bearing eyebrows: agent identity on exception cards, side-rail
+     section labels. Sized one notch larger than decorative section-eyebrows
+     so the signal is legible at 14"+ laptop viewing distance. */
+  .agent-eyebrow {
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #525252;
+    font-weight: 500;
+  }
+  .rail-eyebrow {
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #525252;
+    display: inline-block;
   }
 
   .topbar-search {
@@ -176,10 +194,37 @@
     background: #fafafa;
     border: 1px solid transparent;
     border-radius: 2px;
-    padding: 0 12px 0 38px;
+    padding: 0 56px 0 38px;
     font-size: 13px;
     color: #1a1a1a;
     transition: background 160ms ease, border-color 160ms ease;
+  }
+  /* Topbar icon controls: 28x28 tap target with 16px visual mark */
+  .topbar-icon-btn {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #525252;
+    border-radius: 2px;
+    transition: color 140ms ease, background 140ms ease;
+  }
+  .topbar-icon-btn:hover {
+    color: #1a1a1a;
+    background: #f5f5f4;
+  }
+  .topbar-icon-btn[aria-disabled="true"] {
+    color: #a3a3a3;
+    cursor: not-allowed;
+  }
+  .topbar-icon-btn[aria-disabled="true"]:hover {
+    color: #a3a3a3;
+    background: transparent;
+  }
+  .topbar-icon-btn[aria-expanded="true"] {
+    color: #1a1a1a;
+    background: #f5f5f4;
   }
   .topbar-search:focus {
     outline: none;
@@ -275,6 +320,26 @@
     gap: 10px;
   }
   .menu-item:hover {
+    background: #fafafa;
+  }
+  /* Radix-rendered floating dropdown (lives in a portal, Tier 3 elevation) */
+  .menu-pop-floating {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 2px;
+    min-width: 180px;
+    padding: 4px 0;
+    box-shadow: 0 14px 38px -16px rgba(26, 26, 26, 0.22);
+    z-index: 60;
+  }
+  .menu-pop-item {
+    padding: 8px 14px;
+    font-size: 13px;
+    color: #1a1a1a;
+    cursor: pointer;
+    outline: none;
+  }
+  .menu-pop-item[data-highlighted] {
     background: #fafafa;
   }
 
@@ -426,6 +491,35 @@
   .btn-sm-primary:disabled { background: #c9c9c9; cursor: not-allowed; }
   .btn-sm-outline { background: #fff; color: #1a1a1a; border-color: #e5e5e5; }
   .btn-sm-outline:hover { border-color: #1a1a1a; background: #fafafa; }
+  /* Confirm tier for high-stakes Approve actions. Amber tint signals
+     "this is a financial commit," not the same as a single-click primary. */
+  .btn-sm-confirm {
+    background: #fbf5e9;
+    color: #6b4a12;
+    border: 1px solid #efe3c7;
+    font-weight: 500;
+  }
+  .btn-sm-confirm:hover { background: #f6ecd5; border-color: #e0cca3; }
+  /* Overflow trigger for secondary card actions */
+  .btn-sm-overflow {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    justify-content: center;
+    background: #fff;
+    color: #525252;
+    border-color: #e5e5e5;
+  }
+  .btn-sm-overflow:hover {
+    border-color: #1a1a1a;
+    color: #1a1a1a;
+    background: #fafafa;
+  }
+  .btn-sm-overflow[data-state="open"] {
+    border-color: #1a1a1a;
+    background: #fafafa;
+    color: #1a1a1a;
+  }
 
   .panel {
     background: #ffffff;
