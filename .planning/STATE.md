@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 1 (Casa 360 Redesign) added; roadmap re-sequenced
-last_updated: "2026-05-20T10:00:04.000Z"
-last_activity: 2026-05-20 — Casa 360 Redesign added as Phase 1; roadmap re-sequenced (old Phases 1-5 → 2-6). Redesign collapses 13 routes to a 3-tab IA (Exception Board / Vault / Assistant) + Owner/Operations roles; runs before the data work. Source brief: phases/01-casa-360-redesign/REDESIGN-BRIEF.md.
+status: executing
+stopped_at: Phase 1 UI-SPEC approved
+last_updated: "2026-05-20T11:13:08.926Z"
+last_activity: 2026-05-20 -- Phase 01 planning complete
 progress:
   total_phases: 6
   completed_phases: 0
-  total_plans: 0
+  total_plans: 6
   completed_plans: 0
   percent: 0
 ---
@@ -29,8 +29,8 @@ See: .planning/PROJECT.md (updated 2026-05-14)
 
 Phase: 1 of 6 (Casa 360 Redesign — 3-tab IA)
 Plan: 0 of TBD in current phase
-Status: Not planned yet — ready for discuss-phase / plan-phase
-Last activity: 2026-05-20 — Casa 360 Redesign added as Phase 1; roadmap re-sequenced (old Phases 1-5 → 2-6). Phase 2 (Data Foundation) context is now stale and needs a re-discuss after the redesign lands.
+Status: Ready to execute
+Last activity: 2026-05-20 -- Phase 01 planning complete
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -98,6 +98,6 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-05-20T10:00:04.000Z
-Stopped at: Phase 1 (Casa 360 Redesign) added; roadmap re-sequenced
-Resume file: .planning/phases/01-casa-360-redesign/REDESIGN-BRIEF.md
+Last session: 2026-05-20T10:32:29.730Z
+Stopped at: Phase 1 UI-SPEC approved
+Resume file: .planning/phases/01-casa-360-redesign/01-UI-SPEC.md
