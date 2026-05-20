@@ -57,7 +57,10 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
   3. Eight data modules built: `src/lib/data/{properties,bookings,agents,agent_runs,agent_logs,pricing_recs,exceptions,action_log}.ts`. The path-to-paint pages (Exception Board, Pricing surface, Pricing Agent detail) migrated to read from these modules; the other pages keep their mock imports until their phases land. (Exact post-redesign page paths reconciled at discuss-phase.)
   4. Seed: 26 properties (matching the redesigned narrative mock-data shape) + 4 agents (Pricing/Ops/Guest/SOP with `mode='shadow'`) + ~20 sample `pricing_recs` + ~30 sample `agent_logs` + ~6 sample `exceptions`. Inserting an `agent_logs` row via Supabase Studio makes it appear on the Pricing Agent detail page on next navigation.
   5. The n8n Pricing workflow (`gIcYI8N1i1ljtCnW`) executes against real Supabase and writes a complete `agent_runs` + `agent_logs` + `pricing_recs` trace; the Pricing Agent detail page surfaces those rows (proves Phase 3's Casa↔Supabase↔n8n path is unblocked).
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 02-01-PLAN.md — Schema deploy (12 tables + safety columns), narrative-mirror seed, env-var rename + Zod validator, gen:types
+- [ ] 02-02-PLAN.md — Eight src/lib/data/* async modules typed from generated database.types.ts
+- [ ] 02-03-PLAN.md — Exception Board RSC server-shell + client island; Pricing Agent detail Decisions/Activity migrated to real reads
 **UI hint**: yes
 
 ### Phase 3: Integration Contracts + Pricing Agent (Integration Testbed)
@@ -124,7 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6. Decimal phases
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Casa 360 Redesign | 6/6 | Complete   | 2026-05-20 |
-| 2. Data Foundation | 0/TBD | Not started | - |
+| 2. Data Foundation | 0/3 | Not started | - |
 | 3. Integration Contracts + Pricing Agent | 0/TBD | Not started | - |
 | 4. Ops Agent — Cleaner Dispatch | 0/TBD | Not started | - |
 | 5. Guest Agent | 0/TBD | Not started | - |
