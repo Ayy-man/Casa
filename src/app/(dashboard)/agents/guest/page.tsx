@@ -1,11 +1,7 @@
-import { AgentSkeleton } from "@/components/casa/agent-skeleton";
+import { redirect } from "next/navigation";
 
-export default function GuestAgentPage() {
-  return (
-    <AgentSkeleton
-      name="Guest Agent"
-      tagline="Drafts replies to guest inquiries within minutes. Escalates anything sensitive."
-      mode="Shadow"
-    />
-  );
+// Legacy route — relocated to /vault/agent-logs/guest (Phase 1 IA collapse).
+// Redirect-stub keeps external deep links alive without a 404.
+export default function LegacyGuestAgentRedirect() {
+  redirect("/vault/agent-logs/guest");
 }

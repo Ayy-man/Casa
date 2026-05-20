@@ -47,7 +47,7 @@ export function CommandPalette({
         kind: "Property",
         label: p.name,
         sub: p.neighborhood,
-        go: "/properties/" + p.id,
+        go: "/vault/properties/" + p.id,
       }));
 
     const bookings: Item[] = BOOKINGS.filter(
@@ -58,7 +58,7 @@ export function CommandPalette({
         kind: "Booking",
         label: b.guest,
         sub: b.id,
-        go: "/bookings/" + b.id,
+        go: "/vault/bookings/" + b.id,
       }));
 
     const cleanings: Item[] = CLEANINGS_TODAY.filter((c) =>
@@ -69,7 +69,7 @@ export function CommandPalette({
         kind: "Cleaning",
         label: c.cleaner,
         sub: c.time,
-        go: "/cleanings",
+        go: "/vault/cleanings",
       }));
 
     const actions: Item[] = AGENT_ACTIVITY.filter((a) => matches(a.text))
@@ -78,7 +78,7 @@ export function CommandPalette({
         kind: "Agent action",
         label: a.text,
         sub: `${a.agent} · ${a.time}`,
-        go: "/agents",
+        go: "/vault/agent-logs",
       }));
 
     const flat: Item[] = [];

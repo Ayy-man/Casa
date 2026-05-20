@@ -1,11 +1,7 @@
-import { AgentSkeleton } from "@/components/casa/agent-skeleton";
+import { redirect } from "next/navigation";
 
-export default function OpsAgentPage() {
-  return (
-    <AgentSkeleton
-      name="Ops Agent"
-      tagline="Coordinates cleaning calendar, supply runs, and small repairs."
-      mode="Live"
-    />
-  );
+// Legacy route — relocated to /vault/agent-logs/ops (Phase 1 IA collapse).
+// Redirect-stub keeps external deep links alive without a 404.
+export default function LegacyOpsAgentRedirect() {
+  redirect("/vault/agent-logs/ops");
 }
