@@ -1,10 +1,11 @@
 ---
 phase: 1
 slug: casa-360-redesign
-status: draft
+status: approved
 shadcn_initialized: true
 preset: "manual — globals.css component-class system (components.json present, cssVariables:false)"
 created: 2026-05-20
+reviewed_at: 2026-05-20
 ---
 
 # Phase 1 — UI Design Contract
