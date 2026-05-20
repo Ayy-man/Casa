@@ -38,8 +38,8 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
   5. Two real roles wired — `src/lib/auth/context.tsx` exposes `role: 'owner' | 'operations'` and a `useRole()` hook; `carlos@casa.com` = owner, `denika@casa.com` = operations. Role drives the Exception Board greeting/eyebrow, Vault pinning (Properties/Owners/Financials for owner; Bookings/Turnovers for operations), and the Assistant greeting + 4 suggested prompts — verified on both demo accounts.
   6. Assistant + narrative data + build-clean — `/assistant` renders a role-aware greeting bubble, 4 suggested-prompt chips, and a canned-response demo (1–2s delay). Mock data is rewritten narrative: all 26 properties use real Vancouver addresses with correct neighborhoods, all cleaner references use Casa's roster (Andrea, Carly, Sabrina, Juli, Stana, Andrea L.). `npm run build` succeeds with no broken imports; no console errors on any route; the mobile breakpoint collapses the nav to a drawer and adapts the Vault grid and side-sheets.
 **Plans**: 6 plans
-- [ ] 01-01-PLAN.md — Top-nav shell, role-aware auth (useRole), date-fns, shared globals.css classes
-- [ ] 01-02-PLAN.md — Narrative mock-data rewrite: 26 Vancouver addresses, real cleaner roster, 7 anchor exception cards, 5 new Vault/Assistant modules
+- [x] 01-01-PLAN.md — Top-nav shell, role-aware auth (useRole), date-fns, shared globals.css classes
+- [x] 01-02-PLAN.md — Narrative mock-data rewrite: 26 Vancouver addresses, real cleaner roster, 7 anchor exception cards, 5 new Vault/Assistant modules
 - [ ] 01-03-PLAN.md — Exception Board home route: greeting, status pills, filter chips, narrative exception cards, Pricing mega-card
 - [ ] 01-04-PLAN.md — Vault: 8-card landing with role pinning, table sub-pages, ~500px side-sheets, deep-linkable detail routes
 - [ ] 01-05-PLAN.md — Agent Logs index, Pricing Agent detail relocated verbatim, Guest/Ops/SOP pages, legacy route retirement
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6. Decimal phases
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Casa 360 Redesign | 0/TBD | Not started | - |
+| 1. Casa 360 Redesign | 2/6 | In Progress|  |
 | 2. Data Foundation | 0/TBD | Not started | - |
 | 3. Integration Contracts + Pricing Agent | 0/TBD | Not started | - |
 | 4. Ops Agent — Cleaner Dispatch | 0/TBD | Not started | - |
