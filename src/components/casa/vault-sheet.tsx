@@ -129,25 +129,30 @@ export function VaultSheet({
   );
 }
 
-/** Graceful not-found block for deep-linked /vault/{name}/[id] routes. */
+/**
+ * Graceful not-found block for deep-linked /vault/{name}/[id] routes. The
+ * heading + body default to the UI-SPEC "Not-found" strings; each detail
+ * route passes them explicitly so the copy is owned at the call site.
+ */
 export function VaultNotFound({
   backHref,
   backLabel,
+  heading = "Not found.",
+  body = "That record doesn’t exist or has been removed.",
 }: {
   backHref: string;
   backLabel: string;
+  heading?: string;
+  body?: string;
 }) {
   return (
     <div className="route-fade page-pad">
       <div className="text-center py-24 border border-rule border-dashed rounded-[2px]">
-        <h1 className="font-display text-[28px] tracking-tight">Not found.</h1>
+        <h1 className="font-display text-[28px] tracking-tight">{heading}</h1>
         <p className="text-[13px] text-neutral-500 mt-3 max-w-[380px] mx-auto">
-          That record doesn&rsquo;t exist or has been removed.
+          {body}
         </p>
-        <a
-          href={backHref}
-          className="btn-sm btn-sm-outline mt-5 inline-flex"
-        >
+        <a href={backHref} className="btn-sm btn-sm-outline mt-5 inline-flex">
           {backLabel}
         </a>
       </div>
