@@ -1,4 +1,6 @@
-# Phase 1: Data Foundation (36-hour sprint) - Discussion Log
+# Phase 2: Data Foundation (36-hour sprint) - Discussion Log
+
+> ⚠️ Renumbered 2026-05-20: this phase was Phase 1; the Casa 360 Redesign is now Phase 1.
 
 > **Audit trail only.** Do not use as input to planning, research, or execution agents.
 > Decisions are captured in CONTEXT.md — this log preserves the alternatives considered.

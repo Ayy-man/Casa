@@ -1,7 +1,15 @@
-# Phase 1: Data Foundation (36-hour sprint) - Context
+# Phase 2: Data Foundation (36-hour sprint) - Context
 
 **Gathered:** 2026-05-15
-**Status:** Ready for planning
+**Status:** Stale — re-run discuss-phase before planning
+
+> ⚠️ **STALE (2026-05-20).** This context was gathered when Data Foundation was Phase 1.
+> The Casa 360 Redesign was inserted ahead of it as the new Phase 1, so this is now
+> **Phase 2**, and the redesign restructures the pages this phase migrates (Home →
+> Exception Board, the Pricing route, the Pricing Agent detail route). Internal
+> "Phase N" references below reflect the pre-renumber numbering (old 1 = now 2,
+> old 2 = now 3, …). Re-run `/gsd:discuss-phase 2` after the redesign lands before
+> using this for planning.
 
 <domain>
 ## Phase Boundary
