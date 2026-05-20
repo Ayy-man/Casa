@@ -18,7 +18,7 @@ export function AgentSkeleton({
       <div style={{ background: "#1A1F2A", color: "#FFFFFF" }}>
         <div className="page-pad" style={{ paddingTop: 28, paddingBottom: 28 }}>
           <Link
-            href="/agents"
+            href="/vault/agent-logs"
             className="text-[11.5px] text-[#9AA3B2] hover:text-white flex items-center gap-1.5 mb-4 w-fit"
           >
             <ChevronLeft size={12} strokeWidth={1.5} />
@@ -53,7 +53,7 @@ export function AgentSkeleton({
             Prompt History, Controls) reused here, populated with this agent’s action
             types in a later iteration.
           </p>
-          <Link href="/agents/pricing" className="btn-sm btn-sm-outline mt-5 inline-flex">
+          <Link href="/vault/agent-logs/pricing" className="btn-sm btn-sm-outline mt-5 inline-flex">
             See Pricing Agent fully built
           </Link>
         </div>
