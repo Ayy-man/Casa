@@ -45,7 +45,7 @@ export const REPORT_CUMULATIVE: CumulativeReport = {
         "Refund language: tone slightly more accommodating than house policy",
       ],
       samples: [
-        { property: "Yaletown 2BR · Maria L.", ours: "Drafted apology + 10% credit", theirs: "Apology only, no credit", delta: "Tone" },
+        { property: "1455 Howe St · Yaletown Suite", ours: "Drafted apology + 10% credit", theirs: "Apology only, no credit", delta: "Tone" },
         { property: "West End 1BR · Daniel K.", ours: "Same-day check-in approved", theirs: "Escalated to host", delta: "Authority" },
         { property: "Pt Grey 3BR · Nora P.", ours: "Polite decline", theirs: "Polite decline", delta: "·" },
       ],
