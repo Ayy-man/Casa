@@ -127,15 +127,25 @@ this contract declares a 4-multiple scale so new layout is consistent and checke
 | lg | 24px | Card padding (`p-6` per brief = 24px); gap between exception cards; Vault card padding |
 | xl | 32px | Section spacing (`space-y-8` per brief = 32px); top-nav horizontal inset; Vault grid gap |
 | 2xl | 48px | Greeting block → status pills; major vertical breaks on Exception Board |
-| 3xl | 64px | Page top inset below the 70px nav; Assistant column top padding |
+| 3xl | 64px | Page top inset below the nav; Assistant column top padding |
 
-**Exceptions (binding, not negotiable):**
-- Top nav height: **70px** (brief-specified; supersedes DESIGN.md's 60px `topbar-height` for the redesigned nav).
-- Exception Board column: **max-width 1000px**, centered.
-- Assistant column: **max-width 700px**, centered.
-- Vault side-sheet width: **~500px** desktop (note: this is *narrower* than the existing `.sheet` 600px — the planner adds a `.sheet--vault` 500px width variant; full-screen on mobile, reusing the existing `@media (max-width:767px)` `.sheet` 100vw rule).
-- Preserved surfaces (Pricing Agent detail, tables, existing sheets) keep their current `globals.css` spacing untouched.
-- Touch targets: interactive controls on mobile ≥ 44px tall (status pills, filter chips, nav drawer rows). Existing `.btn-primary`/`.field` are already 44px.
+Every token above is a multiple of 4. **There are no spacing-scale exceptions** —
+nothing in the spacing scale breaks the 4-multiple rule.
+
+**Spacing notes (not scale tokens):**
+- Preserved surfaces (Pricing Agent detail, tables, existing sheets) keep their current `globals.css` spacing untouched — they use the legacy 2px-grid named tokens, not this scale.
+- Touch targets: interactive controls on mobile ≥ 44px tall (status pills, filter chips, nav drawer rows). 44px is a WCAG/touch minimum, not a spacing-scale token. Existing `.btn-primary`/`.field` are already 44px.
+
+**Layout constants (fixed dimensions — declared with their owning component in the Component Inventory, NOT spacing-scale tokens):**
+- Top-nav height (70px) — see Component Inventory → `casa/top-nav.tsx`.
+- Exception Board content width (1000px) — see Component Inventory → Exception card.
+- Assistant column width (700px) — see Component Inventory → Assistant.
+- Vault side-sheet width (~500px) — see Component Inventory → Side-sheet (Vault drill-down).
+
+These are content/layout widths and one fixed bar height; they are deliberately kept out
+of the spacing scale because they are not rhythm units. Their values (70 / 1000 / 700 /
+500) are unchanged — only their *location* in this document moved, so the spacing scale
+stays purely 4-multiple.
 
 ---
 
@@ -159,6 +169,13 @@ Four declared tiers for the new surfaces. Weights: **2 only** — regular 400 an
 - **Mono** — SF Mono, 11.5px, `tabular-nums`. Booking IDs (`BK-2847`), timestamps, costs. (`.mono` exists.)
 - **Tabular numerals** — every numeric (status-pill counts, KPI-style figures, costs, percentages) uses `font-variant-numeric: tabular-nums`.
 
+**Note on the four-tier limit:** the eyebrow (11px), pill label (10.5px), and mono
+(11.5px) sizes above are **pre-existing Casa system constants carried forward verbatim
+from DESIGN.md** — they are not new sizes introduced by Phase 1 and do not count against
+the Phase 1 four-tier typography limit. The four-tier table is the count of *Phase-1
+type roles*; these three are inherited decorative/audit-metadata constants. The single
+genuinely new size this phase introduces is the 15px reading body (Resolved Tension 1).
+
 ---
 
 ## Color
@@ -178,7 +195,7 @@ print-shop status-quartet system. Phase 1 keeps this verbatim. The 60/30/10 spli
 2. Primary action buttons on exception cards and side-sheets (`.btn-sm-primary` already ink-on-white; the *primary* visual emphasis sits with ink — but where the brief says "primary Casa blue," the primary CTA on Exception cards and the Assistant send button use the Casa-blue fill. See note below.)
 3. The notification-bell badge (`.notif-badge` — already `#1E5FBF`).
 4. The "PINNED FOR {ROLE}" Vault badge + pinned-card border (Resolved Tension 3 — `#EAF1FB`/`#1E5FBF`/`#C9D9F0` quartet).
-5. The selected filter chip — NOTE: the existing `.filter-chip.active` is ink `#1A1A1A`. The brief says the selected "All" chip is "Casa blue bg, white text." Resolution: the *active* filter chip uses **Casa blue `#1E5FBF` fill, white text** (planner adds a `.filter-chip--accent` modifier or overrides `.filter-chip.active`). This is a deliberate, brief-mandated exception to the existing ink-active chip.
+5. The selected filter chip — NOTE: the existing `.filter-chip.active` is ink `#1A1A1A`. The brief says the selected "All" chip is "Casa blue bg, white text." Resolution: the *active* filter chip uses **Casa blue `#1E5FBF` fill, white text** (planner adds a `.filter-chip--accent` modifier or overrides `.filter-chip.active`). This is a deliberate, brief-mandated exception to the existing ink-active chip. **Contrast caveat:** white on `#1E5FBF` is ~4.7:1 at the chip's 10.5–12px label size — above the 4.5:1 AA floor but with little margin. The executor must verify white-on-`#1E5FBF` contrast with a contrast checker at implementation time; if the rendered chip falls below 4.5:1, bump the chip label to weight 500 (large-text 3:1 threshold does not apply at this size) or darken the fill toward `#134E8B`.
 6. Side-sheet / "View all" / breadcrumb links and the Assistant suggested-prompt chip hover/active outline.
 7. `:focus-visible` ring on primary CTAs (already wired — `rgba(30,95,191,0.55)`).
 8. Text-selection highlight (`rgba(30,95,191,0.15)` — already wired).
@@ -288,27 +305,29 @@ page pattern. Real three-state lifecycle + Undo persistence is Phase 3 (SAFE-03/
 
 ## Component Inventory (new + reused)
 
-For the planner — what to build vs. reuse.
+For the planner — what to build vs. reuse. Layout-constant dimensions (fixed widths/heights)
+are declared inline on the owning component row — they are deliberately not spacing-scale
+tokens.
 
 | Surface | Component | Build / Reuse |
 |---------|-----------|---------------|
-| Top nav | `casa/top-nav.tsx` (70px sticky bar — logo+wordmark / 3 tabs / bell + user dropdown) | **NEW** — replaces deleted `sidebar.tsx`; mounts in `(dashboard)/layout.tsx` |
+| Top nav | `casa/top-nav.tsx` — **fixed layout height: 70px** (brief-specified; a layout constant, not a spacing-scale token; supersedes DESIGN.md's 60px `topbar-height` for the redesigned nav). Sticky bar: logo+wordmark (left) / 3 tabs (center) / notification bell + user dropdown (right). The notification bell is icon-only — its `<button>` MUST carry `aria-label="Notifications"` (plus the `title` attribute CLAUDE.md already requires for all icon-only buttons). | **NEW** — replaces deleted `sidebar.tsx`; mounts in `(dashboard)/layout.tsx` |
 | Mobile nav | hamburger trigger + full slide-in drawer (3 tabs + user/role section) | **NEW** — part of `top-nav.tsx`; drawer is a Tier-3 surface, slide-in via `transform`, `prefers-reduced-motion` honored |
 | User dropdown | Radix Dropdown styled with `.menu-pop-floating` / `.menu-pop-item` | Reuse existing classes |
-| Notification bell | bell icon + `.notif-badge` | Reuse `.notif-badge` (already `#1E5FBF`) |
+| Notification bell | bell icon + `.notif-badge`; icon-only `<button>` with `aria-label="Notifications"` + `title` | Reuse `.notif-badge` (already `#1E5FBF`) |
 | Greeting block | role eyebrow + Playfair headline + subtitle | **NEW** — Exception Board |
 | Status pill row | 4 count pills | **NEW** — uses status quartets above |
 | Filter chip row | 7 multi-select chips | Reuse `.filter-chip`; add `.filter-chip--accent` for the Casa-blue active state |
-| Exception card | category pill + inner colored rule + time-ago + serif title + subtitle + 15px body + `Suggested:` block + action row + source footer | **NEW** `casa/exception-card.tsx` — visually descends from `.ex-card` (reuse the base class, extend) |
+| Exception card | category pill + inner colored rule + time-ago + serif title + subtitle + 15px body + `Suggested:` block + action row + source footer. **Fixed layout: Exception Board content column max-width 1000px, centered** (layout constant, not a spacing token). | **NEW** `casa/exception-card.tsx` — visually descends from `.ex-card` (reuse the base class, extend) |
 | Pricing mega-card | "Pricing Week of [date]" card opening a side-sheet with the 26-row Approve/Edit/Reject table | **NEW** card; the 26-row table is the **preserved** bulk-approve workflow from the old `/pricing` page, relocated into the sheet |
 | Empty state | Playfair "All clear." + sans body | **NEW** — Exception Board |
 | Vault landing | 4×2 card grid (2×4 / 1-col mobile); icon-in-soft-square + title + subtitle + pin badge | **NEW** `casa/vault-card.tsx` |
 | Vault sub-page | breadcrumb + Playfair header + count + filter row + sortable table | **NEW** table pattern; reuse `.pricing-table` styles as the table base |
-| Side-sheet (Vault drill-down) | ~500px right sheet, X close, header, 4-tile stat grid, key/value `.def-row` rows, action row | Reuse `.sheet`/`.sheet-overlay`/`.sheet-header`/`.def-row`; add `.sheet--vault` 500px width variant |
+| Side-sheet (Vault drill-down) | right sheet — **fixed layout width: ~500px desktop** (layout constant, not a spacing token; narrower than the existing `.sheet` 600px — planner adds a `.sheet--vault` 500px width variant; full-screen on mobile, reusing the existing `@media (max-width:767px)` `.sheet` 100vw rule). X close, header, 4-tile stat grid, key/value `.def-row` rows, action row. | Reuse `.sheet`/`.sheet-overlay`/`.sheet-header`/`.def-row`; add `.sheet--vault` width variant |
 | Agent Logs index | 4-agent 2×2 grid (status pill + sparkline + stat tiles) + recent-activity feed table | **NEW** index; reuse `casa/sparkline.tsx` |
 | Pricing Agent detail | 9-section page | **PRESERVE VERBATIM** — relocate to `/vault/agent-logs/pricing`, do not restyle |
 | Guest/Ops/SOP detail | same 9-section structure, agent-appropriate mock data | Extend — `agent-skeleton.tsx` exists; build out to Pricing parity (full parity work is later phases, Phase 1 mirrors the structure) |
-| Assistant | bot avatar + greeting bubble + 4 prompt chips + conversation + bottom input bar | **NEW** `casa/assistant.tsx`; reuse `.bubble`/`.bubble.them`/`.bubble.us` chat classes |
+| Assistant | bot avatar + greeting bubble + 4 prompt chips + conversation + bottom input bar. **Fixed layout: column max-width 700px, centered** (layout constant, not a spacing token). | **NEW** `casa/assistant.tsx`; reuse `.bubble`/`.bubble.them`/`.bubble.us` chat classes |
 | Toast | action receipts + Undo | Reuse `.toast-row` / `.toast-undo` |
 
 ---
@@ -328,9 +347,10 @@ For the planner — what to build vs. reuse.
 
 ## Accessibility Contract (WCAG 2.1 AA — pragmatic, binding)
 
-- **Contrast:** 4.5:1 body text / interactive labels; 3:1 large text (≥18pt or ≥14pt bold) and UI component boundaries. All 8 category quartets above are pre-checked ≥6:1.
+- **Contrast:** 4.5:1 body text / interactive labels; 3:1 large text (≥18pt or ≥14pt bold) and UI component boundaries. All 8 category quartets above are pre-checked ≥6:1. The Casa-blue active filter chip (white on `#1E5FBF`, ~4.7:1) must be re-verified at implementation time — see Color reserved-for item 5.
 - **Color never alone:** every category pill, status pill, and urgency dot carries a text label. (Verified in the category table.)
 - **Keyboard reachable:** top-nav tabs, user dropdown, notification bell, filter chips, exception action buttons, Vault cards, table rows, side-sheets, Assistant input + chips — all operable without a mouse.
+- **Icon-only buttons:** the notification bell carries `aria-label="Notifications"` + `title`; any other icon-only control carries an `aria-label` + `title` (CLAUDE.md binding rule).
 - **Focus:** `:focus-visible` 3px ring (ink-tinted default `rgba(26,26,26,0.18)`; Casa-blue `rgba(30,95,191,0.55)` on primary CTAs). Already wired — applies to new components automatically.
 - **`prefers-reduced-motion`:** honored on every new animation (drawer, status-pill count, route fade).
 - **Small type:** 10.5–11px eyebrows/pill labels are decorative metadata only — never the sole carrier of a critical value (counts also appear as the pill word).
@@ -395,3 +415,5 @@ should verify each:
 8. **`date-fns` added to `package.json`** before `formatDistanceToNow` is used.
 9. **Logo references `humanos-logo.png`**, never `.svg`.
 10. **`prefers-reduced-motion` block updated** to cover the new mobile drawer + status-pill animations.
+11. **Active filter chip contrast** — white on `#1E5FBF` (~4.7:1) re-verified at implementation; bump label weight or darken fill if it falls below 4.5:1.
+12. **Notification bell** carries `aria-label="Notifications"` + `title`.
