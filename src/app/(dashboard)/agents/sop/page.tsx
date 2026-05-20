@@ -1,11 +1,7 @@
-import { AgentSkeleton } from "@/components/casa/agent-skeleton";
+import { redirect } from "next/navigation";
 
-export default function SOPAgentPage() {
-  return (
-    <AgentSkeleton
-      name="SOP Agent"
-      tagline="Keeps every property’s playbook current. Flags drift from Casa standards."
-      mode="Live"
-    />
-  );
+// Legacy route — relocated to /vault/agent-logs/sop (Phase 1 IA collapse).
+// Redirect-stub keeps external deep links alive without a 404.
+export default function LegacySOPAgentRedirect() {
+  redirect("/vault/agent-logs/sop");
 }
