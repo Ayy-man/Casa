@@ -9,11 +9,14 @@ import {
   type ReactNode,
 } from "react";
 
+export type Role = "owner" | "operations";
+
 export type AuthUser = {
   email: string;
   name: string;
   initials: string;
-  role: string;
+  role: string; // existing free-string display label ("CEO / Founder")
+  workspaceRole: Role; // drives greetings, Vault pinning, Assistant prompts
 };
 
 type SignInResult = { ok: true } | { ok: false; error: string };
@@ -31,12 +34,14 @@ const USERS: Record<string, { password: string } & Omit<AuthUser, "email">> = {
     name: "Carlos Robles",
     initials: "CR",
     role: "CEO / Founder",
+    workspaceRole: "owner",
   },
   "denika@casa.com": {
     password: "demo",
     name: "Denika Patel",
     initials: "DP",
     role: "Portfolio Manager",
+    workspaceRole: "operations",
   },
 };
 
@@ -66,6 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: record.name,
         initials: record.initials,
         role: record.role,
+        workspaceRole: record.workspaceRole,
       };
       setUser(next);
       try {
@@ -98,4 +104,9 @@ export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used within AuthProvider");
   return ctx;
+}
+
+export function useRole(): Role {
+  const { user } = useAuth();
+  return user?.workspaceRole ?? "operations";
 }
