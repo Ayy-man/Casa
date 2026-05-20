@@ -807,6 +807,138 @@
   .tab-count { display: inline-block; margin-left: 6px; font-size: 11px; color: #8c8c8c; }
   .tab-trigger.active .tab-count { color: #1a1a1a; }
 
+  /* ── Casa 360 redesign (Phase 1) — shared component vocabulary ───────────
+     Filter-chip accent state, accent button, Vault sheet width, the 8
+     exception-category quartets, the 4 Exception-Board status pills, the
+     inner category-rule helper, the mobile nav drawer, and the new motion. */
+
+  /* Brief-mandated active state for the Exception Board filter chips. The
+     existing .filter-chip.active is ink and stays for the Vault tables.
+     Label weight 500 lifts white-on-#1E5FBF above the 4.5:1 AA floor at the
+     chip's small label size (UI-SPEC Color item 5). */
+  .filter-chip--accent {
+    background: #1e5fbf;
+    color: #ffffff;
+    border-color: #1e5fbf;
+    font-weight: 500;
+  }
+  .filter-chip--accent:hover { border-color: #1e5fbf; color: #ffffff; }
+
+  /* Casa-blue 32px button — per-card primary CTA + Assistant send button
+     (UI-SPEC "Primary-button color note"). Composes onto .btn-sm. */
+  .btn-sm-accent { background: #1e5fbf; color: #ffffff; }
+  .btn-sm-accent:hover { background: #16519f; }
+  .btn-sm-accent:disabled { background: #c9c9c9; cursor: not-allowed; }
+
+  /* Vault drill-down side-sheet — narrower (500px) than the base .sheet
+     (600px). Mobile 100vw is already covered by the @media (max-width:767px)
+     .sheet rule, so no mobile override is needed here. */
+  .sheet--vault { width: 500px; }
+
+  /* 8 exception-category color quartets — reconciled WCAG-AA mapping from the
+     UI-SPEC "8 Exception-Category color quartets" table. Each is a pill base
+     (fill / text) plus a quartet step exposed via --cat-rule for the inner
+     2px card rule. Pipeline is a desaturated slate-teal, Compliance a muted
+     plum — Casa-idiom quartets only; no saturated hues. */
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 22px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .cat-Guest       { background: #fbebe8; color: #8a2b1f; border-color: #f0cfc9; --cat-rule: #c0392b; }
+  .cat-Cleaner     { background: #fbebe8; color: #8a2b1f; border-color: #f0cfc9; --cat-rule: #c0392b; }
+  .cat-Pricing     { background: #faf4dd; color: #6f5a14; border-color: #ecdfa8; --cat-rule: #c9a22b; }
+  .cat-Maintenance { background: #fbf1e4; color: #7a4a14; border-color: #eedab7; --cat-rule: #d9822b; }
+  .cat-Owner       { background: #eaf1fb; color: #134e8b; border-color: #c9d9f0; --cat-rule: #1e5fbf; }
+  .cat-Revenue     { background: #eaf1fb; color: #134e8b; border-color: #c9d9f0; --cat-rule: #1e5fbf; }
+  .cat-Pipeline    { background: #eaf0f0; color: #2a4a4a; border-color: #cfdcdc; --cat-rule: #3e6f6f; }
+  .cat-Compliance  { background: #f1ecf2; color: #5a3a63; border-color: #ddd0e0; --cat-rule: #7a5a82; }
+
+  /* Inner 2px category accent rule — modeled on .kpi-card .kpi-rule: an
+     absolutely-positioned bar INSIDE the card border, never a border-left
+     width (DESIGN.md / Checker watch-list item 2). The owning card needs
+     position:relative + overflow:hidden; colour comes from the --cat-rule
+     custom property set by the .cat-* class above. */
+  .cat-rule {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--cat-rule, #e5e5e5);
+  }
+
+  /* 4 Exception Board status pills — UI-SPEC "4 Exception Board status pills"
+     table. "pending" uses the Critical SOFT quartet (never solid red). */
+  .status-count-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .status-pending  { background: #fbebe8; color: #8a2b1f; border-color: #f0cfc9; }
+  .status-critical { background: #fbebe8; color: #8a2b1f; border-color: #f0cfc9; }
+  .status-medium   { background: #faf4dd; color: #6f5a14; border-color: #ecdfa8; }
+  .status-resolved { background: #f2f2f1; color: #525252; border-color: #e5e5e5; }
+  /* Count-change animation — opacity/transform only (Interaction Contract). */
+  .status-count-pill .status-count { display: inline-block; }
+  .status-count--changed .status-count { animation: status-count-pop 280ms ease both; }
+  @keyframes status-count-pop {
+    from { opacity: 0; transform: translateY(-2px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Mobile slide-in nav drawer (L4) — no analog. Tier-3 surface; slides via
+     transform: translateX() only (no layout-property animation). */
+  .nav-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 86vw;
+    background: #ffffff;
+    border-left: 1px solid #e5e5e5;
+    z-index: 51;
+    display: flex;
+    flex-direction: column;
+    animation: nav-drawer-in 240ms ease both;
+  }
+  @keyframes nav-drawer-in {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  .nav-drawer-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #525252;
+    border-left: 2px solid transparent;
+    transition: color 140ms ease, background 140ms ease;
+  }
+  .nav-drawer-item:hover { color: #1a1a1a; background: #fafafa; }
+  .nav-drawer-item.active {
+    color: #1a1a1a;
+    border-left-color: #1e5fbf;
+    font-weight: 500;
+  }
+
   .sheet-overlay {
     position: fixed;
     inset: 0;
@@ -1160,7 +1292,9 @@
   .sheet,
   .toast-row,
   .ex-card--flash,
-  .btn-publish-check {
+  .btn-publish-check,
+  .nav-drawer,
+  .status-count--changed .status-count {
     animation: none !important;
   }
   .kpi-card,
