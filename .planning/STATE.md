@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 1 UI-SPEC approved
-last_updated: "2026-05-20T11:13:08.926Z"
-last_activity: 2026-05-20 -- Phase 01 planning complete
+last_updated: "2026-05-20T12:37:51.656Z"
+last_activity: 2026-05-20 -- Phase 01 execution started
 progress:
   total_phases: 6
   completed_phases: 0
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Carlos resolves a day's exceptions in under 10 minutes and never opens Hostaway, PriceLabs, or WhatsApp directly — agents do the routine work, Carlos approves only the few decisions that require judgment.
-**Current focus:** Phase 1 — Casa 360 Redesign
+**Current focus:** Phase 01 — casa-360-redesign
 **Mode:** mvp
 **Deadline:** May 15, 2026 (4 days from 2026-05-14) — hard cutover; Carlos's day-shift VA leaves that day.
 
 ## Current Position
 
-Phase: 1 of 6 (Casa 360 Redesign — 3-tab IA)
-Plan: 0 of TBD in current phase
-Status: Ready to execute
-Last activity: 2026-05-20 -- Phase 01 planning complete
+Phase: 01 (casa-360-redesign) — EXECUTING
+Plan: 1 of 6
+Status: Executing Phase 01
+Last activity: 2026-05-20 -- Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
