@@ -42,7 +42,7 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
 - [x] 01-02-PLAN.md — Narrative mock-data rewrite: 26 Vancouver addresses, real cleaner roster, 7 anchor exception cards, 5 new Vault/Assistant modules
 - [x] 01-03-PLAN.md — Exception Board home route: greeting, status pills, filter chips, narrative exception cards, Pricing mega-card
 - [x] 01-04-PLAN.md — Vault: 8-card landing with role pinning, table sub-pages, ~500px side-sheets, deep-linkable detail routes
-- [ ] 01-05-PLAN.md — Agent Logs index, Pricing Agent detail relocated verbatim, Guest/Ops/SOP pages, legacy route retirement
+- [x] 01-05-PLAN.md — Agent Logs index, Pricing Agent detail relocated verbatim, Guest/Ops/SOP pages, legacy route retirement
 - [ ] 01-06-PLAN.md — Assistant role-aware chat demo + full-phase build-clean/mobile/cross-account verification
 **UI hint**: yes
 
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6. Decimal phases
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Casa 360 Redesign | 4/6 | In Progress|  |
+| 1. Casa 360 Redesign | 5/6 | In Progress|  |
 | 2. Data Foundation | 0/TBD | Not started | - |
 | 3. Integration Contracts + Pricing Agent | 0/TBD | Not started | - |
 | 4. Ops Agent — Cleaner Dispatch | 0/TBD | Not started | - |
