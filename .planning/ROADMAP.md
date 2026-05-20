@@ -37,7 +37,13 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
   4. Pricing Agent detail preserved; legacy routes retired — the existing rich 9-section Pricing Agent page renders verbatim at `/vault/agent-logs/pricing`; `/pricing`, `/cleanings`, `/claims`, `/properties`, `/bookings`, `/agents/*`, `/reports` are deleted or redirected to their `/vault/*` homes. The Pricing bulk-approve workflow is reachable as a "Pricing Week of [date]" exception card opening a 26-row Approve/Edit/Reject side-sheet.
   5. Two real roles wired — `src/lib/auth/context.tsx` exposes `role: 'owner' | 'operations'` and a `useRole()` hook; `carlos@casa.com` = owner, `denika@casa.com` = operations. Role drives the Exception Board greeting/eyebrow, Vault pinning (Properties/Owners/Financials for owner; Bookings/Turnovers for operations), and the Assistant greeting + 4 suggested prompts — verified on both demo accounts.
   6. Assistant + narrative data + build-clean — `/assistant` renders a role-aware greeting bubble, 4 suggested-prompt chips, and a canned-response demo (1–2s delay). Mock data is rewritten narrative: all 26 properties use real Vancouver addresses with correct neighborhoods, all cleaner references use Casa's roster (Andrea, Carly, Sabrina, Juli, Stana, Andrea L.). `npm run build` succeeds with no broken imports; no console errors on any route; the mobile breakpoint collapses the nav to a drawer and adapts the Vault grid and side-sheets.
-**Plans**: TBD
+**Plans**: 6 plans
+- [ ] 01-01-PLAN.md — Top-nav shell, role-aware auth (useRole), date-fns, shared globals.css classes
+- [ ] 01-02-PLAN.md — Narrative mock-data rewrite: 26 Vancouver addresses, real cleaner roster, 7 anchor exception cards, 5 new Vault/Assistant modules
+- [ ] 01-03-PLAN.md — Exception Board home route: greeting, status pills, filter chips, narrative exception cards, Pricing mega-card
+- [ ] 01-04-PLAN.md — Vault: 8-card landing with role pinning, table sub-pages, ~500px side-sheets, deep-linkable detail routes
+- [ ] 01-05-PLAN.md — Agent Logs index, Pricing Agent detail relocated verbatim, Guest/Ops/SOP pages, legacy route retirement
+- [ ] 01-06-PLAN.md — Assistant role-aware chat demo + full-phase build-clean/mobile/cross-account verification
 **UI hint**: yes
 
 ### Phase 2: Data Foundation (36-hour sprint)
