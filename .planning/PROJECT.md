@@ -51,6 +51,15 @@ require judgment.
   Branding — existing UI
 - ✓ Hardcoded demo auth — Carlos + Denika share demo password — sufficient
   through May/June shadow validation
+- ✓ Casa 360 Redesign — 13 routes collapsed to a 3-tab IA (Exception Board /
+  Vault / Assistant), Owner/Operations roles via `useRole()`, the rich Pricing
+  Agent detail page preserved under `/vault/agent-logs/pricing`, narrative
+  operator-grade mock data — **Phase 1 (validated 2026-05-20)**. This redesign
+  restructured the dashboard-shell, home-screen, and standalone-page items
+  above: the left sidebar is now a sticky top nav, the KPI/right-rail home is
+  now the urgency-sorted Exception Board, and the standalone Pricing /
+  Cleanings / Claims / Properties / Bookings routes now live under `/vault/*`
+  (legacy paths kept as `redirect()` stubs). Casa blue stays; sage green out.
 
 ### Active
 
@@ -265,4 +274,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-14 after initialization + architectural directive (Vercel Cron + 3 API route families + agent logic in n8n only)*
+*Last updated: 2026-05-20 — Phase 1 (Casa 360 Redesign) complete: 3-tab IA, Owner/Operations roles, narrative mock data.*
