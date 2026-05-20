@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/context";
-import { Sidebar } from "@/components/casa/sidebar";
-import { TopBar } from "@/components/casa/topbar";
+import { TopNav } from "@/components/casa/top-nav";
 import { CommandPalette } from "@/components/casa/command-palette";
 
 export default function DashboardLayout({
@@ -46,11 +45,8 @@ export default function DashboardLayout({
 
   return (
     <div className="h-screen w-full flex flex-col">
-      <TopBar onOpenPalette={() => setPaletteOpen(true)} />
-      <div className="flex-1 flex min-h-0">
-        <Sidebar />
-        <main className="flex-1 min-w-0 overflow-y-auto bg-white">{children}</main>
-      </div>
+      <TopNav />
+      <main className="flex-1 min-w-0 overflow-y-auto">{children}</main>
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
     </div>
   );
