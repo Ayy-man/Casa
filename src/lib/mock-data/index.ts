@@ -7,3 +7,8 @@ export * from "./pricing";
 export * from "./agents";
 export * from "./reviews";
 export * from "./reports";
+export * from "./owners";
+export * from "./pipeline";
+export * from "./financials";
+export * from "./compliance";
+export * from "./assistant";
