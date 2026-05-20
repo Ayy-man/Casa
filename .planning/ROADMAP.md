@@ -16,7 +16,7 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
 - Integer phases (1-6): Planned milestone work
 - Decimal phases (e.g., 2.1): Reserved for urgent insertions if discovered mid-execution
 
-- [ ] **Phase 1: Casa 360 Redesign** - Collapse 13 routes to a 3-tab top-nav IA (Exception Board, Vault, Assistant), implement Owner/Operations roles, preserve the Pricing Agent detail page under Vault, rewrite mock data to be narrative. Casa blue stays; sage green stays out.
+- [x] **Phase 1: Casa 360 Redesign** - Collapse 13 routes to a 3-tab top-nav IA (Exception Board, Vault, Assistant), implement Owner/Operations roles, preserve the Pricing Agent detail page under Vault, rewrite mock data to be narrative. Casa blue stays; sage green stays out. (completed 2026-05-20)
 - [ ] **Phase 2: Data Foundation** - Deploy schema, generate types, build 8 `src/lib/data/*` modules, migrate the path-to-paint pages to real Supabase reads. **36-hour sprint.**
 - [ ] **Phase 3: Integration Contracts + Pricing Agent** - HMAC + idempotency + three-state lifecycle, realtime, Pricing Agent end-to-end as the integration testbed
 - [ ] **Phase 4: Ops Agent — Cleaner Dispatch** - Cutover critical. Supabase state machine, 60/120min escalation cron, Cleanings + Claims actions wired; Cleanings/Claims surfaces migrate to `src/lib/data/*`
@@ -43,7 +43,7 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
 - [x] 01-03-PLAN.md — Exception Board home route: greeting, status pills, filter chips, narrative exception cards, Pricing mega-card
 - [x] 01-04-PLAN.md — Vault: 8-card landing with role pinning, table sub-pages, ~500px side-sheets, deep-linkable detail routes
 - [x] 01-05-PLAN.md — Agent Logs index, Pricing Agent detail relocated verbatim, Guest/Ops/SOP pages, legacy route retirement
-- [ ] 01-06-PLAN.md — Assistant role-aware chat demo + full-phase build-clean/mobile/cross-account verification
+- [x] 01-06-PLAN.md — Assistant role-aware chat demo + full-phase build-clean/mobile/cross-account verification
 **UI hint**: yes
 
 ### Phase 2: Data Foundation (36-hour sprint)
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6. Decimal phases
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Casa 360 Redesign | 5/6 | In Progress|  |
+| 1. Casa 360 Redesign | 6/6 | Complete   | 2026-05-20 |
 | 2. Data Foundation | 0/TBD | Not started | - |
 | 3. Integration Contracts + Pricing Agent | 0/TBD | Not started | - |
 | 4. Ops Agent — Cleaner Dispatch | 0/TBD | Not started | - |
