@@ -10,17 +10,17 @@
 
 ### Data Foundation
 
-- [ ] **DATA-01**: 12-table Supabase schema deployed via versioned migrations
+- [x] **DATA-01**: 12-table Supabase schema deployed via versioned migrations
       in `supabase/migrations/*.sql` (tables: properties, bookings, guests,
       turnovers, claims, agents, agent_runs, agent_logs, exceptions,
       pricing_recs, action_log, knowledge_chunks; column-level design
       finalized in Phase 1 design session with Carlos)
 - [ ] **DATA-02**: pgvector extension + HNSW index + cosine ops live; expose
       `match_knowledge_for_property(property_id, query_embedding, k)` RPC
-- [ ] **DATA-03**: 26 properties seeded matching existing mock-data shapes;
+- [x] **DATA-03**: 26 properties seeded matching existing mock-data shapes;
       sample bookings, exceptions, agent_logs, pricing_recs, turnovers,
       claims, guests seeded for UI testing
-- [ ] **DATA-04**: `database.types.ts` generated via
+- [x] **DATA-04**: `database.types.ts` generated via
       `supabase gen types typescript`; `npm run gen:types` script committed
 - [ ] **DATA-05**: `src/lib/data/*.ts` is the ONLY entity-data import path;
       build fails on `@/lib/mock-data` imports outside `src/lib/data/`
@@ -31,11 +31,11 @@
       Bookings detail, Properties detail, agent skeleton pages, Reports,
       Settings) migrate to `src/lib/data/*` as their respective phases land
       (bundled into each phase's scope, not a separate requirement).
-- [ ] **DATA-07**: Env var rename
+- [x] **DATA-07**: Env var rename
       `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
       across `src/utils/supabase/{client,server,middleware}.ts`;
       `src/lib/env.ts` Zod validation throws readable error on missing vars
-- [ ] **DATA-08**: `@supabase/ssr` cookie handler uses `getAll`/`setAll`
+- [x] **DATA-08**: `@supabase/ssr` cookie handler uses `getAll`/`setAll`
       shape exclusively (legacy `get`/`set`/`remove` removed)
 
 ### Integration Plumbing
@@ -247,14 +247,14 @@ Each v1 requirement maps to exactly one phase. Filled by roadmapper 2026-05-14.
 
 | Requirement | Phase | Status | Notes |
 |-------------|-------|--------|-------|
-| DATA-01 | Phase 1 | Pending | 12-table schema deploy |
+| DATA-01 | Phase 1 | Complete | 12-table schema deploy |
 | DATA-02 | Phase 4 | Pending | Moved from Phase 1 — pgvector + KB RPC only needed when Guest Agent lands |
-| DATA-03 | Phase 1 | Pending | Slim seed only (properties, agents, sample pricing/logs/exceptions); turnovers/claims/guests seed bundles into Phase 3/4 |
-| DATA-04 | Phase 1 | Pending | `gen:types` script |
+| DATA-03 | Phase 1 | Complete | Slim seed only (properties, agents, sample pricing/logs/exceptions); turnovers/claims/guests seed bundles into Phase 3/4 |
+| DATA-04 | Phase 1 | Complete | `gen:types` script |
 | DATA-05 | Phase 5 | Pending | Moved from Phase 1 — ESLint mock-data guard is regression prevention, not a 36hr-sprint blocker |
 | DATA-06 | Phase 1 | Pending | 8 data modules built; Phase 1 pages migrated. Cleanings/Claims migrate in Phase 3; Bookings detail + agent pages in Phase 4 (bundled scope) |
-| DATA-07 | Phase 1 | Pending | Env var rename + Zod validator |
-| DATA-08 | Phase 1 | Pending | Cookie shape verify |
+| DATA-07 | Phase 1 | Complete | Env var rename + Zod validator |
+| DATA-08 | Phase 1 | Complete | Cookie shape verify |
 | INT-01 | Phase 2 | Pending | |
 | INT-02 | Phase 2 | Pending | |
 | INT-03 | Phase 2 | Pending | |

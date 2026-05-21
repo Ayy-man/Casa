@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 2 context gathered
-last_updated: "2026-05-21T06:09:53.472Z"
-last_activity: 2026-05-21 -- Phase 02 planning complete
+last_updated: "2026-05-21T08:54:04.059Z"
+last_activity: 2026-05-21
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 9
-  completed_plans: 6
+  completed_plans: 7
   percent: 17
 ---
 
@@ -21,18 +21,18 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-14)
 
 **Core value:** Carlos resolves a day's exceptions in under 10 minutes and never opens Hostaway, PriceLabs, or WhatsApp directly — agents do the routine work, Carlos approves only the few decisions that require judgment.
-**Current focus:** Phase 02 — data foundation 36 hour sprint
+**Current focus:** Phase 02 — Data Foundation
 **Mode:** mvp
 **Deadline:** May 15, 2026 (4 days from 2026-05-14) — hard cutover; Carlos's day-shift VA leaves that day.
 
 ## Current Position
 
-Phase: 02
-Plan: Not started
+Phase: 02 (Data Foundation) — EXECUTING
+Plan: 2 of 3
 Status: Ready to execute
-Last activity: 2026-05-21 -- Phase 02 planning complete
+Last activity: 2026-05-21
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [████████░░] 78%
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion.*
+| Phase 02 P01 | 180 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,8 @@ Decisions are logged in PROJECT.md Key Decisions table. Recent decisions affecti
 - 2026-05-14: Phase 1 compressed to 36hr sprint — 6 strict-blocker reqs only (schema, types, env fix, cookie shape, slim seed, 8 data modules + 3 page migrations). pgvector moves to Phase 4 (lands when Guest KB needs it). ESLint guard + hardcoded dates move to Phase 5 polish. Home→RSC defers to v2.
 - 2026-05-14: "Events" = `exceptions` + `agent_runs` + `action_log` tables. Eight Phase-1 data modules: properties, bookings, agents, agent_runs, agent_logs, pricing_recs, exceptions, action_log.
 - 2026-05-14: Pricing Agent n8n workflow `gIcYI8N1i1ljtCnW` is built and mock-validated; gated on schema landing. Supabase project `aqsitrzbjokkkpcohple` is provisioned; creds in Vercel + n8n.
+- [Phase ?]: 2026-05-21: database.types.ts hand-transcribed from operator-confirmed live-schema DDL — Supabase CLI unauthenticated; gen:types script wired for future regeneration
+- [Phase ?]: 2026-05-21: 12-table Supabase schema applied by operator via Studio SQL Editor (D-05) — no CLI dependency on build path; agent_runs.idempotency_key UNIQUE from day one
 
 ### Roadmap Evolution
 
@@ -98,6 +101,6 @@ Items acknowledged and carried forward:
 
 ## Session Continuity
 
-Last session: 2026-05-20T20:55:26.975Z
+Last session: 2026-05-21T08:53:42.715Z
 Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-data-foundation-36-hour-sprint/02-CONTEXT.md
+Resume file: None
