@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ChevronLeft,
   ThumbsDown,
@@ -11,6 +11,20 @@ import { PROPERTIES } from "@/lib/mock-data/properties";
 import { modeClass, modeLabel, PROMPT_VERSIONS } from "@/lib/mock-data/agents";
 import { changeClass } from "@/lib/mock-data/pricing";
 import { Sparkline } from "@/components/casa/sparkline";
+import { getAgentLogs, type AgentLog } from "@/lib/data/agent_logs";
+import { getPricingRecs, type PricingRec } from "@/lib/data/pricing_recs";
+
+/**
+ * Pricing Agent detail — stays `"use client"` (D-13: heavy local state — the
+ * 9-section scroll nav, mode toggle, property filter). RSC conversion deferred
+ * to v2. Only the Decisions table + Activity feed read real Supabase data
+ * (D-14/D-15); the rest of the page stays mock/math this phase.
+ *
+ * The math-generated `ACTIVITY` / `DECISIONS` arrays were deleted — a
+ * dependency-free client loader (`useEffect`+`useState`, no SWR/React Query —
+ * the CLAUDE.md pinned-stack constraint) fetches `agent_logs` for the Activity
+ * feed and `pricing_recs` for the Decisions table on mount.
+ */
 
 const SECTIONS = [
   { id: "glance", label: "At a Glance" },
@@ -24,41 +38,62 @@ const SECTIONS = [
   { id: "controls", label: "Controls" },
 ];
 
-const ACTIVITY = PROPERTIES.slice(0, 12).map((p, i) => {
-  const totalMin = 10 * 60 - i * 26;
-  const hour = String(Math.floor(totalMin / 60)).padStart(2, "0");
-  const mm = String(totalMin % 60).padStart(2, "0");
-  const status = i === 5 ? "Flagged" : i === 8 ? "Sent" : "Logged";
-  return {
-    time: `${hour}:${mm}`,
-    property: p.name,
-    action: "Generated rate recommendation",
-    status,
-    cost: (0.02 + i * 0.003).toFixed(3),
-  };
-});
+/** Display row for the Live Activity feed — derived from an `agent_logs` row. */
+type ActivityRow = {
+  id: string;
+  time: string;
+  property: string;
+  action: string;
+  /** Drives the status pill — see `logStatus()`. */
+  status: "Logged" | "Flagged";
+};
 
-const DECISIONS = Array.from({ length: 30 }).map((_, i) => {
-  const p = PROPERTIES[i % PROPERTIES.length];
-  const change = +(Math.sin(i * 1.7) * 14 + (i % 5) * 2).toFixed(1);
-  const day = i < 7 ? "Today" : i < 14 ? "Yesterday" : `Apr ${30 - Math.floor(i / 3)}`;
-  const time = `${(8 + (i % 10)).toString().padStart(2, "0")}:${((i * 7) % 60)
-    .toString()
-    .padStart(2, "0")}`;
-  return {
-    time: `${day}, ${time}`,
-    property: p.name,
-    change,
-    reasoning:
-      change > 5
-        ? "FIFA fan-zone proximity detected. Major demand spike inbound."
-        : change < -5
-        ? "Comp set softened. Two near-comps cut by 10%+. Reducing to stay competitive."
-        : "Modest movement, within normal weekly noise. Rate held near baseline.",
-    status: i % 7 === 3 ? "Flagged" : "Logged",
-    cost: (0.02 + (i % 5) * 0.005).toFixed(3),
-  };
-});
+/** Display row for the Recent Decisions table — derived from a `pricing_recs` row. */
+type DecisionRow = {
+  id: string;
+  time: string;
+  property: string;
+  change: number;
+  reasoning: string;
+  /** Drives the status pill — `pending` recs are flagged for Carlos. */
+  status: "Logged" | "Flagged";
+};
+
+/** `property_id` → display name, resolved from the still-mock PROPERTIES list. */
+const PROPERTY_NAME = new Map(PROPERTIES.map((p) => [p.id, p.name]));
+function propertyName(id: string | null): string {
+  return (id && PROPERTY_NAME.get(id)) || id || "—";
+}
+
+/** Format an ISO timestamp as the table's `When` column ("May 18, 06:01"). */
+function formatWhen(iso: string): string {
+  const d = new Date(iso);
+  const date = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const time = d.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+  return `${date}, ${time}`;
+}
+
+/**
+ * Status from a real `agent_logs` row (D-14): a shadow-mode log is a logged
+ * suggestion; a non-shadow (live) log is an executed action surfaced as
+ * "Flagged for Review".
+ */
+function logStatus(shadowMode: boolean): "Logged" | "Flagged" {
+  return shadowMode ? "Logged" : "Flagged";
+}
+
+/**
+ * Status from a real `pricing_recs` row (D-14): a `pending` rec still needs
+ * Carlos's judgment — surfaced as "Flagged"; `accepted`/other lifecycle
+ * states are "Logged".
+ */
+function recStatus(status: string): "Logged" | "Flagged" {
+  return status === "pending" ? "Flagged" : "Logged";
+}
 
 const KPIS = [
   { l: "Actions Today", v: "26", trend: "+6 vs avg", spark: [3, 6, 12, 8, 14, 11, 26] },
@@ -74,12 +109,74 @@ export default function PricingAgentPage() {
   const [mode, setMode] = useState<"Shadow" | "Live">("Shadow");
   const [filterProp, setFilterProp] = useState<string>("All");
 
+  // ── Client data loader (D-13 — useEffect+useState, no new dependency) ──
+  // Fetches the Activity feed (agent_logs) and the Decisions table
+  // (pricing_recs) for the pricing agent on mount.
+  const [logs, setLogs] = useState<AgentLog[] | null>(null);
+  const [recs, setRecs] = useState<PricingRec[] | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const [logRows, recRows] = await Promise.all([
+          getAgentLogs({ agentKey: "pricing", limit: 12 }),
+          getPricingRecs({}),
+        ]);
+        if (cancelled) return;
+        setLogs(logRows);
+        setRecs(recRows);
+      } catch (err) {
+        if (cancelled) return;
+        setLoadError(
+          err instanceof Error ? err.message : "Failed to load pricing data."
+        );
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const loading = logs === null && recs === null && loadError === null;
+
+  // Activity feed rows — newest-first agent_logs, limited to 12.
+  const activity = useMemo<ActivityRow[]>(
+    () =>
+      (logs ?? []).map((l) => ({
+        id: l.id,
+        time: formatWhen(l.createdAt),
+        property: propertyName(l.propertyId),
+        action:
+          l.action === "hold"
+            ? "Held rate — no change"
+            : "Generated rate recommendation",
+        status: logStatus(l.shadowMode),
+      })),
+    [logs]
+  );
+
+  // Decisions table rows — pricing_recs carry the % change + reasoning + status.
+  const allDecisions = useMemo<DecisionRow[]>(
+    () =>
+      (recs ?? []).map((r) => ({
+        id: r.id,
+        time: formatWhen(r.createdAt),
+        property: propertyName(r.propertyId),
+        change: r.change ?? 0,
+        reasoning: r.reasoning ?? "—",
+        status: recStatus(r.status),
+      })),
+    [recs]
+  );
+
   const decisions = useMemo(
     () =>
       filterProp === "All"
-        ? DECISIONS
-        : DECISIONS.filter((d) => d.property === filterProp),
-    [filterProp]
+        ? allDecisions
+        : allDecisions.filter((d) => d.property === filterProp),
+    [filterProp, allDecisions]
   );
 
   const jump = (id: string) => {
@@ -193,43 +290,58 @@ export default function PricingAgentPage() {
             <table className="pricing-table">
               <thead>
                 <tr>
-                  <th style={{ width: 90 }}>Time</th>
+                  <th style={{ width: 130 }}>Time</th>
                   <th>Property</th>
                   <th>Action</th>
-                  <th>Status</th>
-                  <th style={{ width: 90 }}>Cost</th>
+                  <th style={{ width: 180 }}>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {ACTIVITY.map((r, i) => (
-                  <tr key={i}>
-                    <td className="mono">{r.time}</td>
-                    <td>
-                      <span className="font-display text-[14.5px] tracking-tight">
-                        {r.property}
-                      </span>
+                {loading ? (
+                  <tr>
+                    <td colSpan={4} className="text-neutral-500 text-center py-8">
+                      Loading activity…
                     </td>
-                    <td className="text-neutral-700">{r.action}</td>
-                    <td>
-                      <span
-                        className={`urgency-pill ${
-                          r.status === "Flagged"
-                            ? "pill-Critical"
-                            : r.status === "Sent"
-                            ? "pill-Low"
-                            : "pill-Medium"
-                        }`}
-                      >
-                        {r.status === "Logged"
-                          ? "Logged (Shadow)"
-                          : r.status === "Flagged"
-                          ? "Flagged for Review"
-                          : "Sent"}
-                      </span>
-                    </td>
-                    <td className="mono tabular-nums">${r.cost}</td>
                   </tr>
-                ))}
+                ) : loadError ? (
+                  <tr>
+                    <td colSpan={4} className="text-[#8A2B1F] text-center py-8">
+                      Couldn&rsquo;t load activity. {loadError}
+                    </td>
+                  </tr>
+                ) : activity.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="text-neutral-500 text-center py-8">
+                      No agent activity yet. The Pricing Agent has not logged a
+                      run.
+                    </td>
+                  </tr>
+                ) : (
+                  activity.map((r) => (
+                    <tr key={r.id}>
+                      <td className="mono">{r.time}</td>
+                      <td>
+                        <span className="font-display text-[14.5px] tracking-tight">
+                          {r.property}
+                        </span>
+                      </td>
+                      <td className="text-neutral-700">{r.action}</td>
+                      <td>
+                        <span
+                          className={`urgency-pill ${
+                            r.status === "Flagged"
+                              ? "pill-Critical"
+                              : "pill-Medium"
+                          }`}
+                        >
+                          {r.status === "Flagged"
+                            ? "Flagged for Review"
+                            : "Logged (Shadow)"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -358,40 +470,66 @@ export default function PricingAgentPage() {
                   <th>Property</th>
                   <th>Change</th>
                   <th>Reasoning</th>
-                  <th>Status</th>
-                  <th style={{ width: 80 }}>$</th>
+                  <th style={{ width: 180 }}>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {decisions.map((d, i) => (
-                  <tr key={i}>
-                    <td className="mono text-neutral-600">{d.time}</td>
-                    <td>
-                      <span className="font-display text-[14px]">{d.property}</span>
+                {loading ? (
+                  <tr>
+                    <td colSpan={5} className="text-neutral-500 text-center py-8">
+                      Loading decisions…
                     </td>
-                    <td>
-                      <span className={`change-pill ${changeClass(d.change)}`}>
-                        {d.change > 0 ? "+" : ""}
-                        {d.change}%
-                      </span>
-                    </td>
-                    <td>
-                      <div className="reasoning">
-                        <div className="clamp">{d.reasoning}</div>
-                      </div>
-                    </td>
-                    <td>
-                      <span
-                        className={`urgency-pill ${
-                          d.status === "Flagged" ? "pill-Critical" : "pill-Medium"
-                        }`}
-                      >
-                        {d.status === "Logged" ? "Logged (Shadow)" : d.status}
-                      </span>
-                    </td>
-                    <td className="mono tabular-nums">${d.cost}</td>
                   </tr>
-                ))}
+                ) : loadError ? (
+                  <tr>
+                    <td colSpan={5} className="text-[#8A2B1F] text-center py-8">
+                      Couldn&rsquo;t load decisions. {loadError}
+                    </td>
+                  </tr>
+                ) : decisions.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="text-neutral-500 text-center py-8">
+                      {filterProp === "All"
+                        ? "No pricing decisions yet. The Pricing Agent has not posted a rate run."
+                        : "No decisions for this property in the current window."}
+                    </td>
+                  </tr>
+                ) : (
+                  decisions.map((d) => (
+                    <tr key={d.id}>
+                      <td className="mono text-neutral-600">{d.time}</td>
+                      <td>
+                        <span className="font-display text-[14px]">
+                          {d.property}
+                        </span>
+                      </td>
+                      <td>
+                        <span className={`change-pill ${changeClass(d.change)}`}>
+                          {d.change > 0 ? "+" : ""}
+                          {d.change}%
+                        </span>
+                      </td>
+                      <td>
+                        <div className="reasoning">
+                          <div className="clamp">{d.reasoning}</div>
+                        </div>
+                      </td>
+                      <td>
+                        <span
+                          className={`urgency-pill ${
+                            d.status === "Flagged"
+                              ? "pill-Critical"
+                              : "pill-Medium"
+                          }`}
+                        >
+                          {d.status === "Flagged"
+                            ? "Flagged for Review"
+                            : "Logged (Shadow)"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
