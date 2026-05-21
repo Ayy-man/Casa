@@ -252,7 +252,7 @@ Each v1 requirement maps to exactly one phase. Filled by roadmapper 2026-05-14.
 | DATA-03 | Phase 1 | Complete | Slim seed only (properties, agents, sample pricing/logs/exceptions); turnovers/claims/guests seed bundles into Phase 3/4 |
 | DATA-04 | Phase 1 | Complete | `gen:types` script |
 | DATA-05 | Phase 5 | Pending | Moved from Phase 1 — ESLint mock-data guard is regression prevention, not a 36hr-sprint blocker |
-| DATA-06 | Phase 1 | Pending | 8 data modules built; Phase 1 pages migrated. Cleanings/Claims migrate in Phase 3; Bookings detail + agent pages in Phase 4 (bundled scope) |
+| DATA-06 | Phase 1 | In Progress | Modules half done (plan 02-02 — 8 `src/lib/data/*` modules built, tsc + build clean). Page migration pending in plan 02-03. Cleanings/Claims migrate in Phase 3; Bookings detail + agent pages in Phase 4 (bundled scope) |
 | DATA-07 | Phase 1 | Complete | Env var rename + Zod validator |
 | DATA-08 | Phase 1 | Complete | Cookie shape verify |
 | INT-01 | Phase 2 | Pending | |

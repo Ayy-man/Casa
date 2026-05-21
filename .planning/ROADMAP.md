@@ -59,7 +59,7 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
   5. The n8n Pricing workflow (`gIcYI8N1i1ljtCnW`) executes against real Supabase and writes a complete `agent_runs` + `agent_logs` + `pricing_recs` trace; the Pricing Agent detail page surfaces those rows (proves Phase 3's Casa↔Supabase↔n8n path is unblocked).
 **Plans**: 3 plans
 - [x] 02-01-PLAN.md — Schema deploy (12 tables + safety columns), narrative-mirror seed, env-var rename + Zod validator, gen:types
-- [ ] 02-02-PLAN.md — Eight src/lib/data/* async modules typed from generated database.types.ts
+- [x] 02-02-PLAN.md — Eight src/lib/data/* async modules typed from generated database.types.ts
 - [ ] 02-03-PLAN.md — Exception Board RSC server-shell + client island; Pricing Agent detail Decisions/Activity migrated to real reads
 **UI hint**: yes
 
@@ -127,7 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6. Decimal phases
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Casa 360 Redesign | 6/6 | Complete   | 2026-05-20 |
-| 2. Data Foundation | 1/3 | In Progress|  |
+| 2. Data Foundation | 2/3 | In Progress|  |
 | 3. Integration Contracts + Pricing Agent | 0/TBD | Not started | - |
 | 4. Ops Agent — Cleaner Dispatch | 0/TBD | Not started | - |
 | 5. Guest Agent | 0/TBD | Not started | - |
