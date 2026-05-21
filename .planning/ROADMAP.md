@@ -17,7 +17,7 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
 - Decimal phases (e.g., 2.1): Reserved for urgent insertions if discovered mid-execution
 
 - [x] **Phase 1: Casa 360 Redesign** - Collapse 13 routes to a 3-tab top-nav IA (Exception Board, Vault, Assistant), implement Owner/Operations roles, preserve the Pricing Agent detail page under Vault, rewrite mock data to be narrative. Casa blue stays; sage green stays out. (completed 2026-05-20)
-- [ ] **Phase 2: Data Foundation** - Deploy schema, generate types, build 8 `src/lib/data/*` modules, migrate the path-to-paint pages to real Supabase reads. **36-hour sprint.**
+- [x] **Phase 2: Data Foundation** - Deploy schema, generate types, build 8 `src/lib/data/*` modules, migrate the path-to-paint pages to real Supabase reads. **36-hour sprint.** (completed 2026-05-21)
 - [ ] **Phase 3: Integration Contracts + Pricing Agent** - HMAC + idempotency + three-state lifecycle, realtime, Pricing Agent end-to-end as the integration testbed
 - [ ] **Phase 4: Ops Agent — Cleaner Dispatch** - Cutover critical. Supabase state machine, 60/120min escalation cron, Cleanings + Claims actions wired; Cleanings/Claims surfaces migrate to `src/lib/data/*`
 - [ ] **Phase 5: Guest Agent** - Cutover critical. Inbound guest messages, sensitive-escalation, per-language fonts, Guest + Ops + SOP detail pages at Pricing parity; pgvector + KB RPC for KB-grounded replies; Bookings detail migrates to `src/lib/data/*`
@@ -60,7 +60,7 @@ Casa Command Center's demo skin is complete and trusted. This milestone restruct
 **Plans**: 3 plans
 - [x] 02-01-PLAN.md — Schema deploy (12 tables + safety columns), narrative-mirror seed, env-var rename + Zod validator, gen:types
 - [x] 02-02-PLAN.md — Eight src/lib/data/* async modules typed from generated database.types.ts
-- [ ] 02-03-PLAN.md — Exception Board RSC server-shell + client island; Pricing Agent detail Decisions/Activity migrated to real reads
+- [x] 02-03-PLAN.md — Exception Board RSC server-shell + client island; Pricing Agent detail Decisions/Activity migrated to real reads
 **UI hint**: yes
 
 ### Phase 3: Integration Contracts + Pricing Agent (Integration Testbed)
@@ -127,7 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6. Decimal phases
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Casa 360 Redesign | 6/6 | Complete   | 2026-05-20 |
-| 2. Data Foundation | 2/3 | In Progress|  |
+| 2. Data Foundation | 3/3 | Complete   | 2026-05-21 |
 | 3. Integration Contracts + Pricing Agent | 0/TBD | Not started | - |
 | 4. Ops Agent — Cleaner Dispatch | 0/TBD | Not started | - |
 | 5. Guest Agent | 0/TBD | Not started | - |
